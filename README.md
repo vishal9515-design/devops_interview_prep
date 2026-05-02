@@ -39,7 +39,7 @@ devops-interview-prep/
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/your-username/devops-interview-prep.git
+git clone https://github.com/vishal9515-design/devops_interview_prep.git
 
 2. Navigate to project folder
 cd devops-interview-prep
@@ -53,7 +53,7 @@ start devops-interview-app.html   # Windows
 
 🌐 Live Demo (GitHub Pages)
 
-👉 https://your-username.github.io/devops-interview-prep/
+👉 https://vishal9515-design.github.io/devops_interview_prep/
 
 (Enable GitHub Pages in repo settings to activate this)
 
@@ -90,5 +90,5 @@ Vishal Keesara
 DevOps Engineer | Cloud & Automation Enthusiast
 
 📢 Connect
-LinkedIn: https://linkedin.com/in/your-profile
-GitHub: https://github.com/your-username
+LinkedIn: https://www.linkedin.com/in/vishal-kesara-b76ab3174/
+GitHub: https://github.com/vishal9515-design/
