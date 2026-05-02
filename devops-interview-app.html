@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevOps Interview Prep — Master Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --bg2: #0f1526;
+    --bg3: #151c32;
+    --panel: #1a2240;
+    --panel2: #1e2845;
+    --border: #2a3a60;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --accent3: #10b981;
+    --accent4: #f59e0b;
+    --accent5: #ef4444;
+    --text: #e2e8f0;
+    --text2: #94a3b8;
+    --text3: #64748b;
+    --glow: rgba(0,212,255,0.15);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,14,26,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+
+  .logo span { color: var(--accent); }
+
+  .header-stats {
+    display: flex;
+    gap: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text2);
+  }
+
+  .stat-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+  }
+
+  .stat-dot { width:6px; height:6px; border-radius:50%; background:var(--accent3); animation: pulse 2s infinite; }
+
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  /* ── SEARCH BAR ── */
+  .search-wrap {
+    padding: 24px 24px 0;
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .search-box {
+    width: 100%;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 20px 14px 48px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--text);
+    outline: none;
+    transition: all 0.2s;
+  }
+
+  .search-box::placeholder { color: var(--text3); }
+  .search-box:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
+
+  .search-icon {
+    position: absolute;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3);
+    font-size: 16px;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    height: calc(100vh - 64px);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 16px 0;
+  }
+
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-track { background: transparent; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .sidebar-title {
+    padding: 8px 20px 12px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--text3);
+    text-transform: uppercase;
+  }
+
+  .tool-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 20px;
+    border: none;
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    border-left: 3px solid transparent;
+    position: relative;
+  }
+
+  .tool-btn:hover { background: var(--panel); color: var(--text); }
+
+  .tool-btn.active {
+    background: var(--panel);
+    color: var(--accent);
+    border-left-color: var(--accent);
+  }
+
+  .tool-emoji { font-size: 16px; width: 24px; text-align: center; }
+
+  .tool-count {
+    margin-left: auto;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text3);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 10px;
+  }
+
+  .tool-btn.active .tool-count {
+    background: rgba(0,212,255,0.1);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ── CONTENT ── */
+  .content {
+    overflow-y: auto;
+    padding: 24px;
+  }
+
+  .content::-webkit-scrollbar { width: 6px; }
+  .content::-webkit-scrollbar-track { background: transparent; }
+  .content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* ── TOPIC HEADER ── */
+  .topic-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding: 20px 24px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .topic-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,212,255,0.05), transparent);
+    pointer-events: none;
+  }
+
+  .topic-icon { font-size: 40px; }
+
+  .topic-title { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+  .topic-subtitle { color: var(--text2); font-size: 13px; margin-top: 2px; }
+
+  .topic-badge {
+    margin-left: auto;
+    background: rgba(0,212,255,0.1);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  /* ── Q&A CARDS ── */
+  .qa-list { display: flex; flex-direction: column; gap: 12px; }
+
+  .qa-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.2s;
+  }
+
+  .qa-card:hover { border-color: rgba(0,212,255,0.3); }
+  .qa-card.open { border-color: var(--accent); }
+
+  .qa-question {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: background 0.15s;
+    user-select: none;
+  }
+
+  .qa-question:hover { background: var(--panel2); }
+
+  .q-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    background: rgba(0,212,255,0.1);
+    border: 1px solid rgba(0,212,255,0.3);
+    border-radius: 6px;
+    padding: 2px 8px;
+    min-width: 40px;
+    text-align: center;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+
+  .q-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    flex: 1;
+    line-height: 1.5;
+  }
+
+  .q-arrow {
+    color: var(--text3);
+    font-size: 12px;
+    margin-top: 3px;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .qa-card.open .q-arrow { transform: rotate(180deg); color: var(--accent); }
+
+  .qa-answer {
+    display: none;
+    border-top: 1px solid var(--border);
+    background: var(--bg3);
+  }
+
+  .qa-card.open .qa-answer { display: block; }
+
+  .answer-inner { padding: 20px 24px; }
+
+  .answer-text {
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: var(--text2);
+    white-space: pre-wrap;
+    font-family: 'Syne', sans-serif;
+  }
+
+  /* Code blocks inside answers */
+  .answer-text code,
+  pre.code-block {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+
+  .code-block {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 12px 0;
+    overflow-x: auto;
+    color: #a8d8a8;
+    line-height: 1.6;
+    white-space: pre;
+  }
+
+  .realtime-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(16,185,129,0.1);
+    border: 1px solid rgba(16,185,129,0.3);
+    color: var(--accent3);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── SEARCH RESULTS ── */
+  .search-results-header {
+    padding: 12px 0 16px;
+    color: var(--text2);
+    font-size: 13px;
+  }
+
+  .search-highlight {
+    background: rgba(245,158,11,0.25);
+    color: var(--accent4);
+    border-radius: 3px;
+    padding: 0 2px;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--border);
+    z-index: 200;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width 0.3s;
+    width: 0%;
+  }
+
+  /* ── WELCOME SCREEN ── */
+  .welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    padding: 40px;
+    gap: 32px;
+  }
+
+  .welcome-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .welcome-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+  }
+
+  .welcome-card:hover {
+    border-color: var(--accent);
+    background: var(--panel2);
+    transform: translateY(-2px);
+  }
+
+  .wc-icon { font-size: 24px; margin-bottom: 8px; }
+  .wc-name { font-size: 13px; font-weight: 700; }
+  .wc-count { font-size: 11px; color: var(--text3); font-family: 'JetBrains Mono', monospace; }
+
+  .welcome-title {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.2;
+  }
+
+  .welcome-title span { color: var(--accent); }
+
+  .welcome-sub {
+    color: var(--text2);
+    font-size: 15px;
+    max-width: 500px;
+  }
+
+  /* ── NO RESULTS ── */
+  .no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text3);
+  }
+
+  .no-results-icon { font-size: 48px; margin-bottom: 16px; }
+
+  /* ── EXPAND ALL BTN ── */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .toolbar-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text2);
+    font-size: 12px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .toolbar-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .toolbar-count {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text3);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .main { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .welcome-grid { grid-template-columns: repeat(2,1fr); }
+    .header-stats { display: none; }
+  }
+
+  /* Scroll reveal animation */
+  .qa-card {
+    animation: slideIn 0.2s ease forwards;
+    opacity: 0;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="logo">
+    <div class="logo-icon">⚙️</div>
+    DevOps <span>Interview</span> Prep
+  </div>
+  <div class="header-stats">
+    <div class="stat-pill"><div class="stat-dot"></div><span id="totalQ">613 Questions</span></div>
+    <div class="stat-pill">15 Topics</div>
+    <div class="stat-pill">Real-time Examples</div>
+  </div>
+</header>
+
+<!-- Main Layout -->
+<div class="main">
+
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sidebar-title">Topics</div>
+    <button class="tool-btn" onclick="showTopic('all')">
+      <span class="tool-emoji">🌐</span> All Topics
+      <span class="tool-count">613</span>
+    </button>
+    <div id="sidebarTools"></div>
+  </nav>
+
+  <!-- Content -->
+  <main class="content" id="mainContent">
+    <!-- Welcome screen shown by default -->
+    <div class="welcome" id="welcomeScreen">
+      <div>
+        <div class="welcome-title">Master DevOps<br><span>Interview Questions</span></div>
+        <p class="welcome-sub">613 questions across 15 tools — all with real-time examples and hands-on code samples</p>
+      </div>
+
+      <!-- Search bar in welcome -->
+      <div style="width:100%;max-width:600px;position:relative;">
+        <span style="position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:16px;">🔍</span>
+        <input type="text" id="searchWelcome" placeholder="Search any question, tool, or concept..." class="search-box" style="width:100%;padding-left:44px;" oninput="handleSearch(this.value)">
+      </div>
+
+      <div class="welcome-grid" id="welcomeGrid"></div>
+    </div>
+
+    <!-- Questions View -->
+    <div id="questionsView" style="display:none;">
+      <div style="position:relative;margin-bottom:20px;">
+        <span style="position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:16px;z-index:1;">🔍</span>
+        <input type="text" id="searchMain" placeholder="Search within this topic..." class="search-box" oninput="handleSearch(this.value)">
+      </div>
+      <div id="topicHeader"></div>
+      <div class="toolbar">
+        <button class="toolbar-btn" onclick="expandAll()">▼ Expand All</button>
+        <button class="toolbar-btn" onclick="collapseAll()">▲ Collapse All</button>
+        <span class="toolbar-count" id="qaCount"></span>
+      </div>
+      <div class="qa-list" id="qaList"></div>
+    </div>
+  </main>
+
+</div>
+
+<!-- Progress bar -->
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// DATA — All 613 Questions & Answers
+// ═══════════════════════════════════════════════════════════
+const TOPICS = [
+  {
+    id: 'jenkins',
+    name: 'Jenkins',
+    emoji: '🚀',
+    color: '#f59e0b',
+    questions: [
+      { q: "What is Pipeline as Code in Jenkins?", a: "Defining CI/CD pipeline logic in a Jenkinsfile stored in the source repo, enabling version control of pipeline configuration.\n\n🔧 Real-time Example:\nInstead of configuring jobs via UI, you commit a Jenkinsfile to your Git repo:\n\npipeline {\n  agent any\n  stages {\n    stage('Build') { steps { sh 'mvn clean package' } }\n    stage('Test')  { steps { sh 'mvn test' } }\n    stage('Deploy'){ steps { sh './deploy.sh' } }\n  }\n}\n\nNow your pipeline is versioned alongside your code. Any developer can see exactly what runs. PRs can update the pipeline just like any other code." },
+      { q: "What is the difference between Declarative and Scripted pipeline?", a: "Declarative: Structured, easier syntax using pipeline {} block. Recommended for most teams.\nScripted: Groovy-based, more flexible but complex. Uses node {} block.\n\n🔧 Real-time Example:\n// Declarative (recommended)\npipeline {\n  agent any\n  stages {\n    stage('Build') { steps { sh 'mvn package' } }\n  }\n}\n\n// Scripted (flexible)\nnode {\n  stage('Build') { sh 'mvn package' }\n}\n\nUse Declarative for standard CI/CD flows. Use Scripted when you need complex Groovy logic like dynamic stage generation." },
+      { q: "What stages do you use in your CI/CD pipeline?", a: "Checkout → Build → Unit Test → Code Analysis (SonarQube) → Quality Gate → Docker Build → Image Scan (Trivy) → Push to Registry → Deploy to Dev/UAT/Prod\n\n🔧 Real-time Example:\nstages {\n  stage('Checkout')     { steps { git url: 'https://...' } }\n  stage('Build')        { steps { sh 'mvn clean package' } }\n  stage('Unit Tests')   { steps { sh 'mvn test' } }\n  stage('SonarQube')    { steps { withSonarQubeEnv('SQ') { sh 'mvn sonar:sonar' } } }\n  stage('Quality Gate') { steps { waitForQualityGate abortPipeline: true } }\n  stage('Docker Build') { steps { sh 'docker build -t myapp:${BUILD_NUMBER} .' } }\n  stage('Trivy Scan')   { steps { sh 'trivy image myapp:${BUILD_NUMBER}' } }\n  stage('Push Image')   { steps { sh 'docker push myrepo/myapp:${BUILD_NUMBER}' } }\n  stage('Deploy Dev')   { steps { sh 'kubectl apply -f k8s/ -n dev' } }\n}" },
+      { q: "How do you trigger a pipeline automatically on code push?", a: "Using webhooks in GitHub/GitLab pointing to Jenkins URL. Jenkins receives the push event and triggers the job automatically.\n\n🔧 Real-time Example:\n1. GitHub Repo → Settings → Webhooks → Add webhook\n   Payload URL: http://jenkins-url/github-webhook/\n   Content type: application/json\n   Events: Pushes + Pull requests\n\n2. Jenkins Job → Configure → Build Triggers:\n   ✅ GitHub hook trigger for GITScm polling\n\nDeveloper pushes → GitHub fires webhook → Jenkins triggers in < 1 second → Pipeline runs automatically." },
+      { q: "How do you store credentials securely in Jenkins?", a: "Via Jenkins Credentials Manager (Manage Jenkins → Credentials). Use withCredentials or credentials() in pipeline.\n\n🔧 Real-time Example:\n// In Jenkinsfile — reference by credential ID\nwithCredentials([\n  usernamePassword(\n    credentialsId: 'nexus-creds',\n    usernameVariable: 'NEXUS_USER',\n    passwordVariable: 'NEXUS_PASS'\n  )\n]) {\n  sh 'docker login -u $NEXUS_USER -p $NEXUS_PASS registry.company.com'\n}\n\nCredentials are masked in logs. Never appear in code." },
+      { q: "How do you manage secrets in CI/CD?", a: "Jenkins Credentials Store, HashiCorp Vault integration, Environment variables injected at runtime — never hardcoded.\n\n🔧 Real-time Example:\n// Pull secret from AWS Secrets Manager in pipeline\nstage('Get Secrets') {\n  steps {\n    script {\n      def secret = sh(script: '''\n        aws secretsmanager get-secret-value \\\n          --secret-id prod/myapp/db \\\n          --query SecretString --output text\n      ''', returnStdout: true).trim()\n      env.DB_PASSWORD = readJSON(text: secret).password\n    }\n  }\n}" },
+      { q: "What is a Quality Gate?", a: "A set of conditions in SonarQube that code must pass before proceeding in the pipeline. Think of it as a pass/fail threshold.\n\n🔧 Real-time Example:\nCustom Quality Gate: 'Company Standard'\n  ✅ Coverage ≥ 75%\n  ✅ No new Blocker issues\n  ✅ No new Critical issues\n  ✅ Duplicated lines < 5%\n  ✅ Security Rating = A\n\nDeveloper writes SQL injection vulnerability → SonarQube detects it → Quality Gate FAILS → Pipeline aborts → Code never reaches production." },
+      { q: "How does SonarQube fail the pipeline when quality gate fails?", a: "SonarQube returns a FAILED status on the Quality Gate; Jenkins checks this via waitForQualityGate() and aborts the pipeline.\n\n🔧 Real-time Example:\nstage('Quality Gate') {\n  steps {\n    timeout(time: 5, unit: 'MINUTES') {\n      waitForQualityGate abortPipeline: true  // abort if FAILED\n    }\n  }\n}\n\nSonarQube finishes analysis → posts webhook back to Jenkins → waitForQualityGate receives result → if FAILED, marks build as failed." },
+      { q: "What does waitForQualityGate do in the pipeline?", a: "Pauses the pipeline and polls SonarQube until the Quality Gate result is available, then passes or fails the stage accordingly.\n\n🔧 Real-time Example:\nSonarQube analysis can take 2-3 minutes on large codebases. Without waitForQualityGate, the pipeline would continue without knowing if quality passed.\n\nwaitForQualityGate:\n→ Pauses Jenkins execution\n→ SonarQube sends webhook when analysis complete\n→ Jenkins receives: {status: 'OK'} or {status: 'ERROR'}\n→ Pipeline continues (OK) or aborts (ERROR)" },
+      { q: "If a Jenkins job fails, how do you troubleshoot?", a: "Check Console Output → Review error logs → Check workspace files → Verify credentials/env vars → Reproduce locally if needed.\n\n🔧 Real-time Example:\nPipeline fails at Docker push stage.\n1. Click 'Console Output' in Jenkins\n2. Ctrl+F for 'ERROR' → find: 'unauthorized: authentication required'\n3. ECR credentials expired — check expiry date\n4. Update credentials in Jenkins Credentials Manager\n5. Re-run pipeline → SUCCESS" },
+      { q: "If a pipeline is slow, how do you optimize it?", a: "Run stages in parallel, cache dependencies, use faster agents, skip unnecessary stages for minor changes.\n\n🔧 Real-time Example:\n// Before: 45 minutes (sequential)\nstage('Test')     { sh 'mvn test' }      // 15 min\nstage('Lint')     { sh 'npm run lint' }  // 10 min\nstage('Security') { sh 'trivy scan' }   // 10 min\nstage('Build')    { sh 'docker build' } // 10 min\n\n// After: 20 minutes (parallel)\nstage('Parallel Checks') {\n  parallel {\n    stage('Test')     { sh 'mvn test' }\n    stage('Lint')     { sh 'npm run lint' }\n    stage('Security') { sh 'trivy scan' }\n  }\n}\nstage('Build') { sh 'docker build' }  // only after all pass" },
+      { q: "What is Jenkins shared library?", a: "Reusable Groovy code stored in a separate repo and imported across multiple pipelines to avoid duplication.\n\n🔧 Real-time Example:\n// In shared library: vars/buildAndDeploy.groovy\ndef call(Map config) {\n  pipeline {\n    agent any\n    stages {\n      stage('Build') { steps { sh \"mvn clean package\" } }\n      stage('Deploy') { steps { sh \"kubectl apply -f k8s/ -n ${config.namespace}\" } }\n    }\n  }\n}\n\n// In any Jenkinsfile — reuse it!\n@Library('company-shared-lib') _\nbuildAndDeploy(namespace: 'production')\n\n50 microservices all use same library. Update once → all pipelines updated." },
+      { q: "What are default variables in Jenkins?", a: "BUILD_NUMBER, BUILD_ID, JOB_NAME, WORKSPACE, JENKINS_URL, GIT_COMMIT, GIT_BRANCH, BUILD_URL\n\n🔧 Real-time Example:\nstage('Tag Docker Image') {\n  steps {\n    sh '''\n      docker build -t myapp:${BUILD_NUMBER} .\n      echo \"Built by job: ${JOB_NAME}\"\n      echo \"Git commit: ${GIT_COMMIT}\"\n      echo \"Branch: ${GIT_BRANCH}\"\n    '''\n  }\n}\n\nUse BUILD_NUMBER as image tag → every image uniquely tagged → full traceability from production image back to Git commit." },
+      { q: "What is agent any in Jenkins?", a: "Runs the pipeline on any available Jenkins agent/node. Jenkins picks the first available executor.\n\n🔧 Real-time Example:\npipeline {\n  agent any  // ← runs on ANY available agent\n  // vs:\n  agent { label 'linux' }   // specific OS\n  agent { label 'docker' }  // agent with Docker\n  agent none                // define per stage\n  agent { docker { image 'maven:3.9' } }  // run in container\n}\n\nIn production: avoid 'agent any' — use specific labels to ensure builds run on correct environment (right OS, right tools installed)." },
+      { q: "What is label in Jenkins?", a: "A tag assigned to a node/agent. Used in agent { label 'linux' } to run a stage on a specific node.\n\n🔧 Real-time Example:\n// Assign labels to nodes:\n// Agent 1: labels = 'linux docker maven'\n// Agent 2: labels = 'windows dotnet'\n// Agent 3: labels = 'linux gpu ml'\n\nstage('Build Java') {\n  agent { label 'linux && maven' }  // must have both labels\n  steps { sh 'mvn package' }\n}\n\nstage('ML Training') {\n  agent { label 'gpu' }  // run on GPU node\n  steps { sh 'python train.py' }\n}" },
+      { q: "Can we run parallel stages in Jenkins?", a: "Yes, using the parallel block inside a stage.\n\n🔧 Real-time Example:\nstage('Parallel Testing') {\n  parallel {\n    stage('Unit Tests') {\n      steps { sh 'mvn test -Dtest=Unit*' }\n    }\n    stage('Integration Tests') {\n      steps { sh 'mvn test -Dtest=Integration*' }\n    }\n    stage('Security Scan') {\n      steps { sh 'trivy image myapp:latest' }\n    }\n  }\n}\n\nAll 3 run simultaneously on different agents. Total time = slowest stage, not sum of all." },
+      { q: "What is Blue-Green deployment in Jenkins?", a: "Two identical environments. Pipeline deploys to Green, tests it, then switches traffic from Blue to Green.\n\n🔧 Real-time Example:\nstage('Blue-Green Deploy') {\n  steps {\n    // Deploy to green environment\n    sh 'kubectl apply -f k8s/green/ -n production'\n    sh 'kubectl rollout status deployment/myapp-green'\n    \n    // Run smoke tests on green\n    sh './tests/smoke-test.sh green'\n    \n    // Switch traffic to green\n    sh \"kubectl patch svc myapp -p '{\\\"spec\\\":{\\\"selector\\\":{\\\"slot\\\":\\\"green\\\"}}}'\"\n    \n    // Old blue becomes standby\n    echo 'Traffic switched to Green. Blue is standby for rollback.'\n  }\n}" },
+      { q: "How do you integrate tools like SonarQube, Maven, Docker, Ansible into Jenkins pipeline?", a: "Each tool has a dedicated stage:\n\n🔧 Real-time Example:\nstages {\n  stage('Maven Build') {\n    steps { sh 'mvn clean package -DskipTests' }\n  }\n  stage('SonarQube') {\n    steps {\n      withSonarQubeEnv('SonarQube-Server') {\n        sh 'mvn sonar:sonar'\n      }\n    }\n  }\n  stage('Docker Build & Push') {\n    steps {\n      sh 'docker build -t myapp:${BUILD_NUMBER} .'\n      withDockerRegistry([credentialsId:'ecr-creds']) {\n        sh 'docker push myrepo/myapp:${BUILD_NUMBER}'\n      }\n    }\n  }\n  stage('Ansible Deploy') {\n    steps {\n      sh 'ansible-playbook -i inventory deploy.yml -e version=${BUILD_NUMBER}'\n    }\n  }\n}" },
+      { q: "What is the difference between Continuous Delivery and Continuous Deployment?", a: "Delivery: Code is automatically tested and ready to deploy — deployment needs manual approval.\nDeployment: Code is automatically deployed to production without manual intervention.\n\n🔧 Real-time Example:\nContinuous Delivery:\n  Code → Build → Test → Staging → [MANUAL APPROVAL] → Production\n  Human decides when to release. Finance/healthcare teams often use this.\n\nContinuous Deployment:\n  Code → Build → Test → Staging → [AUTO] → Production\n  Every commit that passes tests goes to production automatically.\n  Netflix, Amazon use this model." },
+      { q: "How do you trigger a pipeline when a PR is raised?", a: "Use GitHub Pull Request Builder plugin or configure webhook for pull_request events.\n\n🔧 Real-time Example:\nIn Jenkinsfile:\ntriggers {\n  githubPullRequests(\n    spec: '',\n    triggerMode: 'HEAVY_HOOKS',\n    events: [Open(), Commit()],\n    branchRestriction: TargetBranchRestriction(['main', 'develop'])\n  )\n}\n\nPR raised on GitHub → webhook fires → Jenkins triggers pipeline → Posts ✅ or ❌ status back to GitHub PR → Developer sees result before merge." },
+      { q: "What are upstream and downstream jobs in Jenkins?", a: "Upstream: Job that triggers another job. Downstream: Job that gets triggered.\n\n🔧 Real-time Example:\nUpstream: 'build-myapp' triggers\n  → Downstream: 'test-myapp'\n  → Downstream: 'deploy-to-dev'\n\nIn pipeline:\n// In build job\npost {\n  success {\n    build job: 'test-myapp',  // trigger downstream\n      parameters: [string(name: 'VERSION', value: BUILD_NUMBER)]\n  }\n}\n\nBenefit: Separate concerns — build team owns build job, QA team owns test job." },
+      { q: "What is an agent in Jenkins?", a: "A machine (physical/VM/container) that executes pipeline jobs. The master delegates work to agents.\n\n🔧 Real-time Example:\nJenkins Master (controller):\n  → Manages UI, stores config, schedules jobs\n  → Should NOT run builds directly in production\n\nJenkins Agents:\n  → Linux Agent: runs Java/Docker builds\n  → Windows Agent: runs .NET builds\n  → K8s Agent: dynamic pods that spin up/down per build\n\nKubernetes dynamic agents:\npipeline {\n  agent {\n    kubernetes {\n      yaml '''\napiVersion: v1\nkind: Pod\nspec:\n  containers:\n  - name: maven\n    image: maven:3.9-jdk-17\n'''\n    }\n  }\n}" },
+      { q: "How do you perform zero-downtime Jenkins upgrade?", a: "Backup → Snapshot → Stop → Update → Start → Verify.\n\n🔧 Real-time Example:\n# Step 1: Backup Jenkins home\ntar -czf jenkins-backup-$(date +%Y%m%d).tar.gz /var/lib/jenkins/\naws s3 cp jenkins-backup-$(date +%Y%m%d).tar.gz s3://backups/jenkins/\n\n# Step 2: Snapshot EC2\naws ec2 create-snapshot --volume-id vol-123 --description 'pre-upgrade'\n\n# Step 3: Update during low traffic window\nsystemctl stop jenkins\napt-get install jenkins=2.450\nsystemctl start jenkins\n\n# Step 4: Verify\ncurl http://localhost:8080/api/json?pretty=true\n# Check all plugins load, run test pipeline" },
+      { q: "A Jenkins stage fails due to credential issues — how do you fix it?", a: "Verify credential ID in Jenkins → Check expiry → Re-enter credentials → Ensure pipeline references correct ID.\n\n🔧 Real-time Example:\nError: 'CredentialsNotFoundException: No credentials found with id docker-registry-creds'\n\n// Check pipeline — typo in ID:\nwithCredentials([usernamePassword(credentialsId: 'docker-regisrty-creds')]) {\n// Should be: 'docker-registry-creds'\n\nFix:\n1. Manage Jenkins → Credentials → Find exact ID\n2. Copy exact ID → paste into Jenkinsfile\n3. If credentials expired → update them\n4. Re-run pipeline → SUCCESS" },
+      { q: "What happens if Quality Gate fails and abortPipeline: false is set?", a: "Pipeline continues but marks the stage as unstable. Useful for generating reports without blocking deployments in lower environments.\n\n🔧 Real-time Example:\nstage('Quality Gate') {\n  steps {\n    waitForQualityGate abortPipeline: false  // don't abort\n  }\n}\n\nBuild result: UNSTABLE (yellow) not FAILED (red)\n\nUse case: Dev environment — you want to see QG results but don't want to block every single dev build. Production pipeline always uses abortPipeline: true." },
+      { q: "If a pipeline fails due to missing environment variables, how do you fix it?", a: "Add the variable to Jenkins environment config or pipeline environment {} block.\n\n🔧 Real-time Example:\nError: 'DB_HOST: unbound variable'\n\n// Fix 1: Add to pipeline environment block\npipeline {\n  environment {\n    DB_HOST = 'prod-db.company.com'\n    DB_PORT = '5432'\n    DB_PASSWORD = credentials('db-password-secret')  // from credentials\n  }\n}\n\n// Fix 2: Check if variable group linked correctly\n// Manage Jenkins → Configure System → Global properties → Environment variables\n\n// Fix 3: Pass at runtime\njenkinsJob.build(parameters: [string(name: 'DB_HOST', value: 'prod-db')])" },
+    ]
+  },
+  {
+    id: 'docker',
+    name: 'Docker',
+    emoji: '🐳',
+    color: '#0ea5e9',
+    questions: [
+      { q: "What is Docker and explain its architecture?", a: "Docker is a platform that packages apps and dependencies into lightweight, portable containers.\n\nArchitecture components:\n• Docker Client: CLI (docker commands)\n• Docker Daemon (dockerd): Background service managing containers\n• Docker Registry: Stores images (DockerHub, ECR, ACR)\n• containerd: Low-level container runtime\n\n🔧 Real-time Example:\ndocker run nginx flow:\n1. Client sends request to Daemon\n2. Daemon checks if 'nginx' image exists locally\n3. If not → pulls from DockerHub Registry\n4. Creates container via containerd\n5. Nginx starts serving on container port 80" },
+      { q: "What is the difference between Docker image and Docker container?", a: "Image: Read-only blueprint/template (like a class in OOP)\nContainer: Running instance of an image (like an object)\n\n🔧 Real-time Example:\nnginx:latest  ← Image (stored in registry, doing nothing)\n\ndocker run nginx  ← Creates a Container (live, running process)\n\nYou can run 10 containers from the same image simultaneously:\ndocker run -d -p 8081:80 nginx  # Container 1\ndocker run -d -p 8082:80 nginx  # Container 2\ndocker run -d -p 8083:80 nginx  # Container 3" },
+      { q: "What is the difference between COPY and ADD?", a: "COPY: Simply copies files from host to image (preferred)\nADD: Everything COPY does + extracts tar files + supports URLs\n\n🔧 Real-time Example:\n# COPY — simple, predictable (always prefer this)\nCOPY app.jar /app/app.jar\nCOPY src/ /app/src/\n\n# ADD — use ONLY when you need its extra features\nADD app.tar.gz /app/        # Auto-extracts archive\nADD https://example.com/config.json /app/  # Download file\n\nBest practice: ALWAYS use COPY unless you specifically need tar extraction or URL download. ADD has unexpected behavior." },
+      { q: "What is the difference between CMD and ENTRYPOINT?", a: "CMD: Default command — can be overridden at runtime\nENTRYPOINT: Fixed command — always runs, args can be appended\n\n🔧 Real-time Example:\n# CMD — overrideable\nCMD [\"python\", \"app.py\"]\ndocker run myimage python test.py  # overrides CMD completely\n\n# ENTRYPOINT — always runs\nENTRYPOINT [\"python\"]\nCMD [\"app.py\"]           # default arg\ndocker run myimage test.py  # runs: python test.py\n\nBest combination for production:\nENTRYPOINT [\"java\", \"-jar\"]  # always java\nCMD [\"app.jar\"]              # default jar (overrideable)" },
+      { q: "How do you reduce Docker image size?", a: "Use minimal base images, multi-stage builds, combine RUN commands, .dockerignore.\n\n🔧 Real-time Example:\n# BEFORE: 800MB Java image\nFROM openjdk:17\nCOPY . .\nRUN mvn package\nCMD [\"java\", \"-jar\", \"target/app.jar\"]\n\n# AFTER: 120MB (multi-stage + alpine)\nFROM maven:3.9-alpine AS build\nCOPY pom.xml .\nRUN mvn dependency:go-offline  # cache deps\nCOPY src ./src\nRUN mvn package -DskipTests\n\nFROM openjdk:17-jre-alpine      # JRE only, alpine base\nCOPY --from=build /app/target/app.jar app.jar\nCMD [\"java\", \"-jar\", \"app.jar\"]\n\n85% size reduction → faster pulls, less storage cost!" },
+      { q: "What is a multi-stage Docker build?", a: "Use multiple FROM statements. Each stage can copy artifacts from previous stages. Final image only contains what's needed to run.\n\n🔧 Real-time Example: Node.js app\n# Stage 1: Build (has all dev tools)\nFROM node:18 AS builder\nWORKDIR /app\nCOPY package*.json ./\nRUN npm install\nCOPY . .\nRUN npm run build       # webpack, babel, etc.\n\n# Stage 2: Production (only runtime)\nFROM node:18-alpine\nWORKDIR /app\nCOPY --from=builder /app/dist ./dist\nCOPY --from=builder /app/node_modules ./node_modules\nCMD [\"node\", \"dist/server.js\"]\n\nResult: 1.2GB build → 180MB production image\nNo source code, no build tools in final image." },
+      { q: "What is Docker Compose?", a: "A tool for defining and running multi-container applications using a docker-compose.yml file.\n\n🔧 Real-time Example:\nversion: '3'\nservices:\n  app:\n    build: .\n    ports:\n      - \"3000:3000\"\n    environment:\n      - DB_HOST=mongo\n    depends_on:\n      - mongo\n      - redis\n  mongo:\n    image: mongo:6\n    volumes:\n      - mongo-data:/data/db\n  redis:\n    image: redis:alpine\n\nvolumes:\n  mongo-data:\n\ndocker-compose up → entire stack (Node + MongoDB + Redis) running in ONE command. Perfect for local development and integration testing." },
+      { q: "What are Docker volumes?", a: "Persistent storage that exists outside the container lifecycle. Data survives container restarts and deletions.\n\n🔧 Real-time Example:\n# WITHOUT volume: data lost when container deleted!\ndocker run mysql:8  # delete container → ALL data gone!\n\n# WITH named volume: data persists\ndocker run -v mysql-data:/var/lib/mysql mysql:8\n# Container deleted → data in 'mysql-data' volume → safe\n# New container mounts same volume → data intact\n\n# Three types:\n# Named volume (managed by Docker — production)\ndocker run -v postgres-data:/var/lib/postgresql/data postgres\n\n# Bind mount (host path — development)\ndocker run -v $(pwd)/src:/app/src myapp  # live reload!\n\n# tmpfs (in memory — sensitive data)\ndocker run --tmpfs /app/secrets myapp" },
+      { q: "What does EXPOSE 8080 do in a Dockerfile?", a: "Documents that the container listens on port 8080. It does NOT actually publish the port — it's just metadata.\n\n🔧 Real-time Example:\nDockerfile:\nEXPOSE 8080    # Just documentation!\n\n# This does NOT make port accessible from host\ndocker run myapp         # port 8080 NOT accessible\n\n# -p flag actually maps port\ndocker run -p 8080:8080 myapp  # NOW accessible!\ndocker run -p 80:8080 myapp    # host:80 → container:8080\n\nEXPOSE tells developers and docker-compose which ports the app uses. The actual binding requires -p at runtime." },
+      { q: "What is the Docker container lifecycle?", a: "Created → Running → Paused → Stopped → Deleted\n\n🔧 Real-time Example:\ndocker create nginx          # Created (not running)\ndocker start <container>     # Running\ndocker pause <container>     # Paused (frozen, CPU released)\ndocker unpause <container>   # Running again\ndocker stop <container>      # Stopped (graceful SIGTERM → 10s → SIGKILL)\ndocker kill <container>      # Stopped immediately (SIGKILL)\ndocker rm <container>        # Deleted\n\n# docker run = docker create + docker start\n# docker run -d -p 80:80 --name web nginx\n\nKey: stop sends SIGTERM first (graceful shutdown) — app can cleanup DB connections, finish requests. kill is immediate." },
+      { q: "How do you troubleshoot a running container?", a: "Systematic debugging approach:\n\n🔧 Real-time Example: Container running but app not responding.\n\n# Step 1: Is it really running?\ndocker ps\n\n# Step 2: Check logs\ndocker logs myapp\ndocker logs -f myapp --tail 100\n\n# Step 3: Check config\ndocker inspect myapp | grep -A 5 'Ports'\n# Found: port mapping is 8081:8080 not 8080:8080!\n\n# Step 4: Resource usage\ndocker stats myapp\n# CONTAINER  CPU %  MEM USAGE / LIMIT\n# myapp      95.0%  450MiB / 512MiB  ← OOM risk!\n\n# Step 5: Shell into container\ndocker exec -it myapp /bin/sh\nls /app/config/    # config file missing!\n\n# Fix: copy config file, rebuild image" },
+      { q: "What are Docker networks? Explain each type.", a: "bridge (default), host, none, overlay (Swarm), macvlan\n\n🔧 Real-time Example:\n# bridge (default) — containers on same host\n# Communicate by container name on CUSTOM bridge:\ndocker network create myapp-network\ndocker run --network myapp-network --name db mongo\ndocker run --network myapp-network --name app myapp\n# App → mongodb://db:27017 (name resolution!)\n\n# host — container uses host network directly\ndocker run --network host nginx\n# Port 80 on container = port 80 on host. No -p needed.\n# Highest performance, least isolation.\n\n# none — no networking\ndocker run --network none secure-batch-job\n\n# overlay — multi-host (Docker Swarm)\n# Connects containers across different servers" },
+      { q: "How do you secure Docker images and containers?", a: "Use minimal base images, run as non-root, scan with Trivy, never store secrets in images.\n\n🔧 Real-time Example:\nDockerfile security:\n# 1. Minimal base image\nFROM distroless/java17-debian11  # No shell, no OS tools\n\n# 2. Non-root user\nRUN addgroup -S appgroup && adduser -S appuser -G appgroup\nUSER appuser\n\n# 3. Read-only filesystem\ndocker run --read-only --tmpfs /tmp myapp\n\n# 4. Resource limits\ndocker run --memory='512m' --cpus='1.0' myapp\n\n# 5. Trivy scan in CI/CD\ntrivy image myapp:v1.0\n# CRITICAL: 0  HIGH: 0  → safe to deploy\n\n# 6. Never:\nENV DB_PASSWORD=secret123  # ❌ secret in image layer!" },
+    ]
+  },
+  {
+    id: 'kubernetes',
+    name: 'Kubernetes',
+    emoji: '☸️',
+    color: '#6366f1',
+    questions: [
+      { q: "What is a Pod?", a: "The smallest deployable unit in Kubernetes. A Pod wraps one or more containers that share the same network and storage.\n\n🔧 Real-time Example:\napiVersion: v1\nkind: Pod\nmetadata:\n  name: myapp-pod\nspec:\n  containers:\n  - name: app\n    image: myapp:v1\n    ports:\n    - containerPort: 8080\n  - name: log-shipper      # sidecar container\n    image: fluentd:latest\n    # Shares same network namespace\n    # Both talk via localhost\n\nPod gets one IP address. Both containers share that IP. Log shipper reads logs from /var/log mounted from app container." },
+      { q: "What is Ingress?", a: "An API object managing external HTTP/HTTPS access to services inside the cluster. Smart reverse proxy/router.\n\n🔧 Real-time Example:\n# Without Ingress: 10 services = 10 AWS LoadBalancers = high cost!\n# With Ingress: 1 LoadBalancer → routes to all services\n\napiVersion: networking.k8s.io/v1\nkind: Ingress\nspec:\n  rules:\n  - host: api.company.com\n    http:\n      paths:\n      - path: /users\n        backend: service: name: user-service\n      - path: /orders\n        backend: service: name: order-service\n      - path: /payments\n        backend: service: name: payment-service\n\nOne ALB → routes based on path → saves $150/month for 10 microservices." },
+      { q: "What is the difference between Deployment and StatefulSet?", a: "Deployment: Stateless apps (random pod names, shared storage)\nStatefulSet: Stateful apps (stable names, dedicated PVC per pod)\n\n🔧 Real-time Example:\n# Deployment — React frontend\napiVersion: apps/v1\nkind: Deployment\nspec:\n  replicas: 3\n# Pods: myapp-7d9f2-abc, myapp-7d9f2-xyz (random)\n# Any pod can serve any request\n\n# StatefulSet — MySQL\napiVersion: apps/v1\nkind: StatefulSet\nspec:\n  replicas: 3\n# Pods: mysql-0, mysql-1, mysql-2 (stable, ordered)\n# Each gets own PVC: data-mysql-0, data-mysql-1, data-mysql-2\n# mysql-0 always primary, mysql-1 + mysql-2 replicas\n# Critical for DB replication!" },
+      { q: "Explain Kubernetes architecture.", a: "Control Plane: API Server, etcd, Scheduler, Controller Manager\nWorker Nodes: kubelet, kube-proxy, Container Runtime\n\n🔧 Real-time Example: kubectl apply -f deployment.yaml flow:\n1. API Server receives request → validates + authenticates\n2. Stores desired state in etcd (the cluster's database)\n3. Scheduler detects unscheduled pods → assigns to node (checks resources, taints, affinity)\n4. kubelet on assigned node sees new pod via watch → pulls image\n5. containerd starts container\n6. kube-proxy updates iptables rules for networking\n7. Pod is Running, added to Service endpoints\n\nIf etcd goes down: cluster keeps running but you can't make changes!" },
+      { q: "How do you troubleshoot a pod in CrashLoopBackOff?", a: "Pod starts, crashes, restarts repeatedly. Kubernetes keeps restarting with increasing delays.\n\n🔧 Real-time Example:\n# Step 1: Get pod status\nkubectl get pods\n# payment-7d9f   0/1   CrashLoopBackOff   47   2h\n\n# Step 2: Check events\nkubectl describe pod payment-7d9f\n# Events: Back-off restarting failed container\n\n# Step 3: Previous container logs (most important!)\nkubectl logs payment-7d9f --previous\n# Error: JDBC Connection failed: Connection refused to db:5432\n\n# Step 4: Check if DB service exists\nkubectl get svc | grep db\n# No service found! DB service was never deployed.\n\n# Fix: Deploy DB service\nkubectl apply -f db-service.yaml\n# CrashLoopBackOff resolves → pod Running" },
+      { q: "What are readiness and liveness probes?", a: "Liveness: Is the app alive? Fails → restart container\nReadiness: Is the app ready for traffic? Fails → remove from load balancer\n\n🔧 Real-time Example:\nlivenessProbe:\n  httpGet:\n    path: /health\n    port: 8080\n  initialDelaySeconds: 30   # wait 30s before first check\n  periodSeconds: 10         # check every 10s\n  failureThreshold: 3       # restart after 3 failures\n\nreadinessProbe:\n  httpGet:\n    path: /ready\n    port: 8080\n  initialDelaySeconds: 10   # app might start faster\n  periodSeconds: 5\n\nScenario: Spring Boot takes 45s to warm up caches.\nWithout readiness probe → K8s sends traffic immediately → 503 errors!\nWith readiness probe → pod shows NotReady until /ready returns 200 → no errors." },
+      { q: "What is Blue-Green deployment in Kubernetes?", a: "Two identical deployments (blue=current, green=new). Switch traffic instantly by updating Service selector.\n\n🔧 Real-time Example:\n# Deploy green (new version)\nkubectl apply -f deployment-green.yaml\n# green pods: version=green, app=myapp\n\n# Test green environment\ncurl http://green-test-service/health\n# All good!\n\n# Switch traffic (instant, zero downtime)\nkubectl patch service myapp \\\n  -p '{\"spec\":{\"selector\":{\"version\":\"green\"}}}'\n\n# Traffic now goes to green.\n# Blue still running as instant rollback:\nkubectl patch service myapp \\\n  -p '{\"spec\":{\"selector\":{\"version\":\"blue\"}}}'\n\n# Rollback in < 1 second!" },
+      { q: "What is RBAC in Kubernetes?", a: "Role-Based Access Control — controls who can do what in the cluster.\n\n🔧 Real-time Example:\n# Dev team can only view pods in 'dev' namespace\napiVersion: rbac.authorization.k8s.io/v1\nkind: Role\nmetadata:\n  namespace: dev\n  name: pod-reader\nrules:\n- apiGroups: [\"\"]\n  resources: [\"pods\", \"pods/log\"]\n  verbs: [\"get\", \"list\", \"watch\"]\n  # NOT: create, delete, exec\n---\nkind: RoleBinding\napiVersion: rbac.authorization.k8s.io/v1\nmetadata:\n  name: dev-team-binding\n  namespace: dev\nroleRef:\n  kind: Role\n  name: pod-reader\nsubjects:\n- kind: Group\n  name: dev-team\n\nDev team can see logs but can't exec into pods or delete them." },
+      { q: "How does Horizontal Pod Autoscaler work?", a: "Automatically scales pod replicas based on CPU/memory or custom metrics.\n\n🔧 Real-time Example:\napiVersion: autoscaling/v2\nkind: HorizontalPodAutoscaler\nspec:\n  scaleTargetRef:\n    apiVersion: apps/v1\n    kind: Deployment\n    name: myapp\n  minReplicas: 3\n  maxReplicas: 20\n  metrics:\n  - type: Resource\n    resource:\n      name: cpu\n      target:\n        type: Utilization\n        averageUtilization: 70\n\nBlack Friday scenario:\n9AM:  3 pods, CPU 40% (normal)\n10AM: Traffic spike → CPU 80%\n10:02: HPA adds 3 more pods → 6 total\n11AM: Peak → 15 pods, CPU 65%\n3PM:  Traffic drops → scales back to 3\nAll automatic! Zero manual intervention." },
+      { q: "How do you perform rollback in Kubernetes?", a: "Use kubectl rollout undo command.\n\n🔧 Real-time Example:\n# Deploy v2.0 (has a bug)\nkubectl set image deployment/myapp app=myrepo/myapp:v2.0\n\n# Error rate spikes to 15%! Need to rollback.\nkubectl rollout history deployment/myapp\n# REVISION  CHANGE-CAUSE\n# 1         version=v1.0\n# 2         version=v2.0  ← current\n\n# Instant rollback to previous version\nkubectl rollout undo deployment/myapp\n\n# Or rollback to specific revision\nkubectl rollout undo deployment/myapp --to-revision=1\n\n# Watch recovery\nkubectl rollout status deployment/myapp\n# Waiting for rollout to finish: 4 of 5 updated...\n# deployment successfully rolled out\n\n# Error rate drops back to 0.1% ✓" },
+      { q: "What is CrashLoopBackOff and how do you fix it?", a: "Container keeps crashing and Kubernetes keeps restarting it with increasing delays (1s, 2s, 4s, 8s...).\n\n🔧 Real-time Example:\nCommon causes and fixes:\n\n1. App exits immediately (startup error)\n   kubectl logs myapp-pod --previous\n   # 'config.yml not found'\n   Fix: Mount ConfigMap with the config file\n\n2. Missing environment variable\n   # 'DB_HOST: unbound variable'\n   Fix: Add env var to deployment spec\n\n3. OOMKilled (out of memory)\n   kubectl describe pod myapp-pod | grep -i oom\n   # Reason: OOMKilled\n   Fix: Increase memory limit in deployment\n\n4. Wrong image entrypoint\n   # 'exec: java: not found'\n   Fix: Check base image has Java installed" },
+      { q: "What is the difference between ClusterIP, NodePort, and LoadBalancer?", a: "ClusterIP: Inside cluster only\nNodePort: Via node IP + port (30000-32767)\nLoadBalancer: Cloud load balancer (production)\n\n🔧 Real-time Example:\n# ClusterIP — DB should NEVER be externally accessible\napiVersion: v1\nkind: Service\nspec:\n  type: ClusterIP         # default\n  selector: {app: postgres}\n  ports: [{port: 5432}]\n\n# NodePort — quick dev testing (avoid in production)\nspec:\n  type: NodePort\n  ports:\n  - port: 80\n    nodePort: 30080       # access via NodeIP:30080\n\n# LoadBalancer — production external traffic\nspec:\n  type: LoadBalancer      # creates AWS ALB/NLB\n  ports:\n  - port: 443\n    targetPort: 8080\n\nRule: DB → ClusterIP, Internal services → ClusterIP, Ingress controller → LoadBalancer" },
+      { q: "How do you debug a Pending Pod?", a: "Pending = pod cannot be scheduled on any node.\n\n🔧 Real-time Example:\nkubectl describe pod myapp-pending\n# Events: 0/3 nodes available:\n#   1 node(s) had taint {dedicated: gpu}\n#   2 Insufficient memory\n\n# Case 1: Insufficient resources\n# Pod requests 4Gi RAM, all nodes have < 4Gi free\nkubectl top nodes\n# node1: 7.5Gi/8Gi used\n# node2: 7.8Gi/8Gi used\n# Fix: Add more nodes OR reduce pod memory request\n\n# Case 2: Taint/Toleration mismatch\n# Node has taint, pod has no matching toleration\n# Fix: Add toleration to pod spec\ntolerations:\n- key: 'dedicated'\n  operator: 'Equal'\n  value: 'gpu'\n  effect: 'NoSchedule'\n\n# Case 3: PVC not bound\nkubectl get pvc\n# STATUS: Pending\n# Fix: Check StorageClass, create PV" },
+      { q: "What is GitOps and how does ArgoCD implement it?", a: "GitOps: Git as single source of truth for infrastructure and deployments.\nArgoCD: Continuously syncs cluster state with Git repository.\n\n🔧 Real-time Example:\n# Developer workflow with ArgoCD:\n1. Dev makes change → commits to Git repo\n2. ArgoCD detects change (polls every 3 min or webhook)\n3. Compares Git state vs cluster state\n4. If different → marks app as OutOfSync\n5. Auto-sync → applies changes to cluster\n6. App marked Synced + Healthy\n\n# Manual change detected (drift):\nkubectl scale deployment myapp --replicas=1  # someone did this!\n# ArgoCD: OutOfSync detected!\n# Auto-sync reverts: replicas back to 3 (as per Git)\n\n# Full audit trail:\ngit log --oneline k8s/deployment.yaml\n# abc1234 Scale to 5 replicas for Black Friday\n# def5678 Deploy v2.1.0\n# Every change traceable to PR and person!" },
+    ]
+  },
+  {
+    id: 'terraform',
+    name: 'Terraform',
+    emoji: '🏗️',
+    color: '#8b5cf6',
+    questions: [
+      { q: "What is Terraform and how does it work?", a: "Open-source IaC tool by HashiCorp. Reads .tf files → calls cloud provider APIs → creates resources → updates state file.\n\n🔧 Real-time Example:\n# workflow:\nterraform init    # Download AWS provider plugin\nterraform plan    # Show what will be created (dry run)\nterraform apply   # Actually create resources\nterraform destroy # Tear down all resources\n\nExample:\nresource 'aws_instance' 'web' {\n  ami           = 'ami-0c55b159cbfafe1f0'\n  instance_type = 't3.medium'\n  tags = { Name = 'web-server' }\n}\n\nterraform apply → calls AWS API → EC2 created → state file records:\n  aws_instance.web.id = 'i-0abc1234567890'" },
+      { q: "What is Terraform state file?", a: "JSON file (terraform.tfstate) tracking current infrastructure state. Maps Terraform code to real-world resources.\n\n🔧 Real-time Example:\n# State file contains:\n{\n  'resources': [{\n    'type': 'aws_instance',\n    'name': 'web',\n    'instances': [{\n      'attributes': {\n        'id': 'i-0abc1234',\n        'public_ip': '54.23.12.45',\n        'instance_type': 't3.medium'\n      }\n    }]\n  }]\n}\n\nWithout state file: Terraform doesn't know i-0abc1234 already exists\n→ Would try to CREATE a new EC2!\n→ You'd have duplicate resources\n\nWith state file: Terraform knows → compares → shows CHANGE, not create" },
+      { q: "What happens if Terraform state file is deleted?", a: "Terraform loses track of all managed resources. Running apply again creates DUPLICATE resources.\n\n🔧 Real-time Example:\n# State file accidentally deleted from S3\n# Your infra: 1 VPC, 3 EC2s, 1 RDS still running\n\nterraform plan\n# + aws_vpc.main will be created      ← DUPLICATE!\n# + aws_instance.web[0] will be created ← DUPLICATE!\n# + aws_instance.web[1] will be created ← DUPLICATE!\n\n# Fix: Re-import existing resources\nterraform import aws_vpc.main vpc-12345678\nterraform import 'aws_instance.web[0]' i-0abc1234\nterraform import aws_db_instance.main mydb-identifier\n\n# Prevention:\n# → Always use remote backend (S3 with versioning)\n# → S3 versioning allows restoring deleted state" },
+      { q: "What is state locking and why is it important?", a: "Prevents two people from running terraform apply simultaneously, which could corrupt the state file.\n\n🔧 Real-time Example:\n# Backend config with locking:\nterraform {\n  backend 's3' {\n    bucket         = 'company-tf-state'\n    key            = 'prod/terraform.tfstate'\n    region         = 'us-east-1'\n    dynamodb_table = 'tf-lock-table'  # locking!\n  }\n}\n\n# Engineer A runs: terraform apply (starts)\n# DynamoDB: LockID = 'company-tf-state/prod/terraform.tfstate'\n\n# Engineer B runs: terraform apply\n# Error: Error acquiring the state lock!\n# Lock Info: ID=xyz, Who=engineerA, Created=14:30:00\n\n# Engineer B waits → Engineer A finishes → lock released → B can proceed\n# Prevents corruption from concurrent writes!" },
+      { q: "What are Terraform modules?", a: "Reusable, self-contained packages of Terraform configurations. Like functions in programming.\n\n🔧 Real-time Example:\n# Problem: 5 microservices each need ECS service + ALB + IAM role\n# Without modules: 5x copy-paste (200+ lines each)\n\n# Create module once\nmodule structure:\n  modules/ecs-service/\n    main.tf     # ECS service + task definition\n    alb.tf      # Application Load Balancer\n    iam.tf      # IAM roles\n    variables.tf\n    outputs.tf\n\n# Use 5 times with different inputs\nmodule 'user_service' {\n  source        = './modules/ecs-service'\n  service_name  = 'user-service'\n  container_port = 8081\n  cpu           = 256\n  memory        = 512\n}\n\nmodule 'order_service' {\n  source        = './modules/ecs-service'\n  service_name  = 'order-service'\n  container_port = 8082\n  cpu           = 512\n  memory        = 1024\n}\n\n80% less code! Update module once → all services updated." },
+      { q: "What is the difference between terraform plan and terraform apply?", a: "plan: Shows what Terraform WILL do (dry run — no changes made)\napply: Actually creates/modifies/destroys resources\n\n🔧 Real-time Example:\nterraform plan output:\n# + aws_instance.web will be created\n#   ami           = 'ami-0abc123'\n#   instance_type = 't3.medium'\n# ~ aws_security_group.app (update in-place)\n#   - ingress port 80 will be removed\n#   + ingress port 443 will be added\n# - aws_instance.old will be destroyed\n# Plan: 1 to add, 1 to change, 1 to destroy.\n\n# Team lead reviews plan before applying to prod!\n# Sees the destroy → asks: intentional?\n# Answer: No! Revert that change.\n# Plan saved the day.\n\n# In CI/CD:\n# PR → terraform plan → team reviews output → approve → merge → terraform apply" },
+      { q: "What is terraform import?", a: "Brings existing manually-created resources under Terraform management without recreating them.\n\n🔧 Real-time Example:\n# Old RDS created manually 6 months ago\n# Now want Terraform to manage it\n\n# Step 1: Write resource block (empty config)\nresource 'aws_db_instance' 'legacy_db' {\n  # attributes filled after import\n}\n\n# Step 2: Import\nterraform import aws_db_instance.legacy_db myapp-prod-db\n# aws_db_instance.legacy_db: Import prepared!\n# aws_db_instance.legacy_db: Refreshing state...\n\n# Step 3: Fill in config from state\nterraform show  # shows all imported attributes\n\n# Step 4: Plan (should show no changes)\nterraform plan\n# No changes. Infrastructure is up-to-date.\n\n# Now Terraform manages the existing RDS!" },
+      { q: "What is drift detection in Terraform?", a: "When real infrastructure differs from Terraform state (someone made manual changes).\n\n🔧 Real-time Example:\n# Someone added a security group rule manually in AWS Console\n# SG should only allow 443, but they added 22 (SSH)\n\n# Terraform detects drift on next plan:\nterraform plan\n# ~ aws_security_group.app will be updated in-place\n#   ~ ingress {\n#     - from_port = 22    ← this will be REMOVED\n#     - to_port   = 22    ← Terraform will revert it!\n#   }\n\n# Two options:\n# 1. Apply → revert manual change (enforce IaC)\n# 2. Update .tf file to include port 22 (adopt the change)\n\n# Best practice: All changes via Terraform only\n# Block manual console changes via SCP:\n# 'Require tag: managed-by=terraform' on all resources" },
+      { q: "What is for_each vs count in Terraform?", a: "count: Creates N identical resources\nfor_each: Creates resources from a map/set with unique configurations\n\n🔧 Real-time Example:\n# count — 3 identical EC2s\nresource 'aws_instance' 'web' {\n  count         = 3\n  ami           = 'ami-0abc123'\n  instance_type = 't3.micro'\n  tags = { Name = 'web-${count.index}' }\n}\n\n# for_each — different configs per instance\nlocals {\n  services = {\n    web = { type = 't3.micro',  port = 80  }\n    api = { type = 't3.medium', port = 8080 }\n    db  = { type = 'r5.large',  port = 5432 }\n  }\n}\n\nresource 'aws_instance' 'service' {\n  for_each      = local.services\n  instance_type = each.value.type\n  tags = { Name = each.key }  # 'web', 'api', 'db'\n}\n\nKey difference: Delete middle item with count → Terraform recreates all after it (index shift!). with for_each → only deletes the specific item by key. Always prefer for_each for production!" },
+      { q: "How do you handle sensitive variables in Terraform?", a: "Use sensitive = true, pass via environment variables, use Vault/Secrets Manager.\n\n🔧 Real-time Example:\n# Mark as sensitive\nvariable 'db_password' {\n  type      = string\n  sensitive = true  # won't appear in plan/apply output\n}\n\n# Pass via environment variable (CI/CD pipeline)\nexport TF_VAR_db_password=$(aws secretsmanager get-secret-value \\\n  --secret-id prod/db/password \\\n  --query SecretString --output text | jq -r .password)\nterraform apply\n\n# In plan output:\n# + aws_db_instance.main\n#   password = (sensitive value)  ← hidden!\n\n# Never:\nvariable 'db_password' {\n  default = 'mysecret123'  # ❌ committed to Git!\n}" },
+    ]
+  },
+  {
+    id: 'ansible',
+    name: 'Ansible',
+    emoji: '🤖',
+    color: '#ec4899',
+    questions: [
+      { q: "What is Ansible and explain its architecture?", a: "Agentless automation tool for configuration management, deployment, and task automation via SSH.\n\nArchitecture:\n• Control Node: Where Ansible runs\n• Managed Nodes: Target servers (no agent needed)\n• Inventory: List of servers\n• Modules: Units of work\n• Playbooks: YAML automation scripts\n\n🔧 Real-time Example:\n# Instead of SSHing into 50 servers manually:\nansible-playbook -i inventory install_java.yml\n\n# Ansible:\n1. Reads inventory (50 server IPs)\n2. SSHes into all 50 simultaneously\n3. Runs install_java module on each\n4. Reports: 50 changed, 0 failed\n\nWhat takes 4 hours manually → 3 minutes with Ansible!" },
+      { q: "What is idempotency in Ansible?", a: "Running a playbook multiple times produces the same result — no unintended side effects.\n\n🔧 Real-time Example:\n# Idempotent module:\n- name: Install Nginx\n  apt:\n    name: nginx\n    state: present     # install IF missing\n\n# Run 1 (Nginx not installed) → changed: [server1]\n# Run 2 (Nginx already installed) → ok: [server1]\n# No duplicate installation!\n\n# NOT idempotent (avoid!):\n- name: Append to config\n  shell: echo 'config setting' >> /etc/app.conf\n# Run 1: adds line → ok\n# Run 2: adds line AGAIN → duplicate!\n\n# Idempotent alternative:\n- name: Ensure config line exists\n  lineinfile:\n    path: /etc/app.conf\n    line: 'config setting'\n    create: yes\n# Only adds if not already present" },
+      { q: "What is Ansible Vault?", a: "Encrypts sensitive data (passwords, API keys) stored in YAML files so they can safely be in Git.\n\n🔧 Real-time Example:\n# Create encrypted file\nansible-vault create group_vars/all/vault.yml\n\n# Contents (before encryption):\nvault_db_password: 'SuperSecret123'\nvault_api_key: 'abc123xyz'\n\n# After encryption (safe to commit to Git):\n$ANSIBLE_VAULT;1.1;AES256\n3866333865373464626538...(gibberish)\n\n# Reference in regular vars:\ndb_password: '{{ vault_db_password }}'\n\n# Run playbook:\nansible-playbook site.yml --vault-password-file ~/.vault_pass\n\n# Rekey when team member leaves:\nansible-vault rekey group_vars/all/vault.yml\n# Enter old password → enter new password\n# Ex-employee's copy is now useless!" },
+      { q: "What are roles in Ansible?", a: "Reusable, structured playbook components with standard directory layout.\n\n🔧 Real-time Example:\nroles/\n  java/\n    tasks/main.yml       # Install Java\n    defaults/main.yml    # java_version: '17'\n    handlers/main.yml    # restart service\n  nginx/\n    tasks/main.yml       # Install + configure\n    templates/nginx.conf.j2  # Jinja2 template\n  mysql/\n    tasks/main.yml\n    vars/main.yml        # DB settings\n\n# site.yml — clean and reusable\n- hosts: appservers\n  roles:\n    - java\n    - nginx\n    - mysql\n\n# 5 teams all need Java?\n# requirements.yml:\nroles:\n  - src: git+https://github.com/company/ansible-roles.git\n    name: java\n\nansible-galaxy install -r requirements.yml\n# All teams use same tested role!" },
+      { q: "How do you integrate Ansible with Jenkins?", a: "Jenkins runs ansible-playbook command as a pipeline step after build/test stages.\n\n🔧 Real-time Example:\nstage('Deploy via Ansible') {\n  steps {\n    withCredentials([\n      file(credentialsId: 'vault-pass', variable: 'VAULT_FILE'),\n      sshUserPrivateKey(credentialsId: 'ssh-key', keyFileVariable: 'SSH_KEY')\n    ]) {\n      sh '''\n        ansible-playbook \\\n          -i inventory/production \\\n          --vault-password-file ${VAULT_FILE} \\\n          --private-key ${SSH_KEY} \\\n          -e \"app_version=${BUILD_NUMBER}\" \\\n          deploy.yml\n      '''\n    }\n  }\n}\n\nJenkins builds JAR → Ansible deploys to 20 servers simultaneously.\nEach server: stops old app → copies new JAR → starts new app → verifies health." },
+      { q: "Write a playbook to install multiple services.", a: "Complete playbook for Java + Nginx + Docker installation:\n\n🔧 Real-time Example:\n---\n- name: Configure Application Stack\n  hosts: appservers\n  become: yes\n\n  tasks:\n    # Java\n    - name: Install Java 17\n      apt:\n        name: openjdk-17-jdk\n        state: present\n        update_cache: yes\n\n    # Nginx\n    - name: Install Nginx\n      apt:\n        name: nginx\n        state: present\n    - name: Start Nginx\n      service:\n        name: nginx\n        state: started\n        enabled: yes\n\n    # Docker\n    - name: Install Docker\n      apt:\n        name: docker-ce\n        state: present\n    - name: Start Docker\n      service:\n        name: docker\n        state: started\n        enabled: yes\n    - name: Add user to docker group\n      user:\n        name: appuser\n        groups: docker\n        append: yes\n\n  handlers:\n    - name: Restart Nginx\n      service: name=nginx state=restarted\n\nRun on 20 servers: ansible-playbook -i inventory stack.yml\nAll 20 servers configured in ~5 minutes!" },
+    ]
+  },
+  {
+    id: 'monitoring',
+    name: 'Monitoring',
+    emoji: '📊',
+    color: '#14b8a6',
+    questions: [
+      { q: "What is Prometheus and how does it work?", a: "Open-source monitoring toolkit. Pulls (scrapes) metrics from targets at regular intervals, stores as time-series data.\n\n🔧 Real-time Example:\n# prometheus.yml scrape config\nscrape_configs:\n  - job_name: 'spring-apps'\n    metrics_path: '/actuator/prometheus'\n    scrape_interval: 15s\n    static_configs:\n      - targets: ['app1:8080', 'app2:8080']\n\n# Metrics scraped every 15s from /actuator/prometheus:\nhttp_requests_total{method='POST',status='200'} 1234\njvm_memory_used_bytes{area='heap'} 256000000\ndb_query_duration_seconds{query='findUser'} 0.045\n\n# PromQL query:\nrate(http_requests_total[5m])  # requests per second\nhistogram_quantile(0.99, request_duration_seconds_bucket)  # p99 latency" },
+      { q: "What is Grafana and how do you configure it?", a: "Open-source visualization platform. Connects to Prometheus, CloudWatch, Elasticsearch and displays dashboards.\n\n🔧 Real-time Example:\n# Quick setup with Docker Compose:\nservices:\n  prometheus:\n    image: prom/prometheus\n    volumes:\n      - ./prometheus.yml:/etc/prometheus/prometheus.yml\n  grafana:\n    image: grafana/grafana\n    ports:\n      - '3000:3000'\n    environment:\n      - GF_SECURITY_ADMIN_PASSWORD=admin\n    depends_on:\n      - prometheus\n\n# In Grafana UI:\n1. Configuration → Data Sources → Add Prometheus\n2. URL: http://prometheus:9090\n3. Save & Test\n4. Import dashboard ID 1860 (Node Exporter Full)\n\n# Instant server monitoring dashboard with:\n# CPU, Memory, Disk, Network, Load average — all in real-time graphs" },
+      { q: "What is Observability? What are logs, metrics, and traces?", a: "Three pillars to understand system behavior from the outside:\n\n🔧 Real-time Example: Payment service slow...\n\nMETRICS (Prometheus):\np99_latency = 4.2s → tells you IT IS slow\n\nTRACES (Jaeger):\nRequest flow:\n  API Gateway   10ms ✓\n  Order Service 15ms ✓\n  Inventory Service 3800ms ← BOTTLENECK!\n  DB query      3750ms\nTells you WHERE it's slow\n\nLOGS (ELK Stack):\n'Cache miss — falling back to DB query'\n'Select * from inventory where product_id=? took 3750ms'\nTells you WHY it's slow\n\nFix: Warm up inventory cache on startup.\nWithout all 3 pillars: would take hours to find this.\nWith full observability: found in 3 minutes." },
+      { q: "How do you configure Prometheus alerts?", a: "Define rules in alert_rules.yml, route via AlertManager to Slack/PagerDuty.\n\n🔧 Real-time Example:\n# alert_rules.yml\ngroups:\n  - name: production_alerts\n    rules:\n      - alert: ServiceDown\n        expr: up == 0\n        for: 1m\n        labels:\n          severity: critical\n        annotations:\n          summary: 'Service {{ $labels.job }} is DOWN'\n\n      - alert: HighErrorRate\n        expr: rate(http_errors_total[5m]) > 0.05\n        for: 2m\n        labels:\n          severity: warning\n        annotations:\n          description: 'Error rate {{ $value | humanizePercentage }}'\n\n# alertmanager.yml routing:\nroute:\n  routes:\n    - match: {severity: critical}\n      receiver: pagerduty        # wake someone up!\n    - match: {severity: warning}\n      receiver: slack-channel    # just notify\n\ninhibit_rules:  # suppress warning if critical fires\n  - source_match: {severity: critical}\n    target_match: {severity: warning}\n    equal: ['service']" },
+      { q: "Service down at 2AM — what do you do?", a: "Structured incident response:\n\n🔧 Real-time Example:\nT+0:00 PagerDuty alert → acknowledge\nT+0:02 Join incident Slack channel\n        Post: 'Investigating payment service outage'\n\nT+0:03 ASSESS\n        kubectl get pods -n production\n        # payment-7d9f   0/1   CrashLoopBackOff\n\nT+0:05 IDENTIFY\n        kubectl logs payment-7d9f --previous\n        # 'Redis connection timeout after 30s'\n        kubectl get pods | grep redis\n        # redis-0   0/1   OOMKilled\n\nT+0:07 MITIGATE\n        kubectl set resources deployment/redis --limits=memory=1Gi\n        kubectl rollout restart deployment/redis\n\nT+0:10 VERIFY\n        watch kubectl get pods\n        # redis-0   1/1   Running ✓\n        # payment   1/1   Running ✓\n        # Error rate: 0% ✓\n\nT+0:12 COMMUNICATE\n        'Service restored at 02:12 UTC'\n        Update status page\n\nT+24:00 POST-MORTEM\n        Root cause: Redis memory limit too low (256Mi)\n        Fix: Increase to 1Gi + add memory alert at 80%" },
+    ]
+  },
+  {
+    id: 'git',
+    name: 'Git',
+    emoji: '🌍',
+    color: '#f97316',
+    questions: [
+      { q: "What is the difference between git merge and git rebase?", a: "merge: Preserves all commits + creates merge commit (non-linear history)\nrebase: Replays commits on top of target (linear, clean history)\n\n🔧 Real-time Example:\n# Merge — safe for shared branches\ngit checkout main\ngit merge feature/payment\n# History: A → B → C → M (merge commit)\n#                    ↗\n#               D → E (feature)\n\n# Rebase — clean history for feature branches\ngit checkout feature/payment\ngit rebase main\n# History: A → B → C → D' → E' (linear!)\n# Looks like feature was developed on latest code\n\n# Team rule:\n# Rebase locally before PR (clean history)\n# Merge via PR to main (preserve branch history)\n# NEVER rebase shared/remote branches!" },
+      { q: "What is git stash and when do you use it?", a: "Temporarily saves uncommitted changes so you can switch context without committing incomplete work.\n\n🔧 Real-time Example:\n# Working on payment feature, halfway done...\n# URGENT: production bug needs immediate fix!\n\n# Save incomplete work\ngit stash save 'WIP: payment gateway integration'\n\n# Fix the bug\ngit checkout main\ngit checkout -b hotfix/login-crash\n# fix code\ngit commit -m 'fix: resolve login null pointer'\ngit push → merge → deploy\n\n# Come back to your feature\ngit checkout feature/payment\ngit stash pop  # restore exactly where you left off!\n\n# List all stashes\ngit stash list\n# stash@{0}: WIP: payment gateway integration\n# stash@{1}: WIP: dashboard charts" },
+      { q: "What is git cherry-pick?", a: "Apply a specific commit from one branch to another without merging the entire branch.\n\n🔧 Real-time Example:\n# Security fix committed to develop branch\ngit log develop --oneline\n# abc1234 Fix SQL injection in login   ← need this in prod!\n# def5678 New dashboard feature         ← not ready\n# ghi9012 Refactor payment module       ← not ready\n\n# Cherry-pick ONLY the security fix to release branch\ngit checkout release/v2.0\ngit cherry-pick abc1234\n\n# ✓ Security fix is now in production branch\n# ✗ Unfinished features NOT included\n\n# Multiple commits:\ngit cherry-pick abc1234 def5678  # multiple\ngit cherry-pick abc1234..def5678 # range\n\n# If conflict during cherry-pick:\ngit cherry-pick --continue  # after resolving\ngit cherry-pick --abort     # cancel" },
+      { q: "What branching strategy do you follow?", a: "GitFlow for complex projects, GitHub Flow for simpler ones.\n\n🔧 Real-time Example: GitFlow in practice:\n# Branches:\nmain     → production (tagged releases)\ndevelop  → integration (all features merged here)\nfeature/JIRA-123-user-auth  → new features\nrelease/v2.1.0              → release prep\nhotfix/JIRA-456-login-crash → emergency fixes\n\n# Feature workflow:\ngit checkout develop\ngit checkout -b feature/JIRA-123-user-auth\n# ... develop feature ...\ngit push origin feature/JIRA-123-user-auth\n# Create PR: feature → develop\n# Code review → approve → merge\n\n# Release workflow:\ngit checkout -b release/v2.1.0 develop\n# Only bug fixes on release branch\ngit checkout main && git merge release/v2.1.0\ngit tag v2.1.0\ngit checkout develop && git merge release/v2.1.0" },
+      { q: "How do you resolve merge conflicts?", a: "Identify conflicting files → edit to choose correct version → stage and commit.\n\n🔧 Real-time Example:\ngit merge feature/user-auth\n# CONFLICT: Merge conflict in UserService.java\n\n# Conflict markers in file:\n<<<<<<< HEAD (your branch - current)\npassword = BCryptEncoder.hash(password);\n=======\npassword = SHA256.hash(password);  // insecure!\n>>>>>>> feature/user-auth (incoming)\n\n# Edit file — keep the secure version:\npassword = BCryptEncoder.hash(password);\n# (remove all <<<, ===, >>> markers)\n\n# Mark as resolved\ngit add src/UserService.java\ngit commit -m 'Merge: keep BCrypt for password hashing'\n\n# Pro tip: Use VS Code merge tool\n# Shows: Accept Current | Accept Incoming | Accept Both\n# Visual, fast, safe" },
+      { q: "What is the difference between git pull and git fetch?", a: "fetch: Downloads changes from remote (doesn't touch local branch)\npull: fetch + merge into current branch automatically\n\n🔧 Real-time Example:\n# fetch — see what changed before integrating\ngit fetch origin\ngit log HEAD..origin/main --oneline\n# abc1234 Add payment retry logic (teammate's commit)\n# def5678 Fix DB connection pool\n\ngit diff HEAD origin/main  # review the changes\n# Looks safe → merge\ngit merge origin/main\n\n# pull — quick sync (fetch + merge in one step)\ngit pull origin main\n# Convenient but can create unexpected merge commits\n\n# Best practice:\n# Use fetch + rebase to keep linear history:\ngit fetch origin\ngit rebase origin/main\n# No merge commits, cleaner history" },
+      { q: "How do you configure webhooks to trigger Jenkins from Git?", a: "GitHub sends HTTP POST to Jenkins when push/PR events occur.\n\n🔧 Real-time Example:\nSetup Steps:\n\n1. In GitHub:\n   Repo → Settings → Webhooks → Add webhook\n   Payload URL: http://jenkins.company.com/github-webhook/\n   Content type: application/json\n   Events: ✅ Push  ✅ Pull requests\n   Secret: (optional security token)\n\n2. In Jenkins Job:\n   Build Triggers → ✅ GitHub hook trigger for GITScm polling\n\n3. Verify:\n   git push origin main\n   # GitHub sends POST to Jenkins webhook URL\n   # Jenkins receives → triggers build in < 1 second\n   # GitHub PR shows ✅ or ❌ status check\n\nTroubleshooting webhooks:\n   GitHub → Settings → Webhooks → Recent Deliveries\n   → See each delivery + response code\n   200 = success, 4xx = Jenkins issue" },
+      { q: "What is git revert and when to use it vs reset?", a: "revert: Safe undo — creates new commit undoing changes (safe for shared branches)\nreset: Rewrites history (DANGEROUS on shared branches)\n\n🔧 Real-time Example:\n# Bad code merged to main (shared branch)\ngit log --oneline\n# abc1234 Deploy broken payment feature  ← this broke prod!\n# def5678 Previous stable version\n\n# CORRECT: git revert (safe, preserves history)\ngit revert abc1234\n# Creates: 'Revert: Deploy broken payment feature'\n# History: ...def5678 → abc1234 → xyz9876 (revert commit)\n# Original commit preserved, new commit undoes it\ngit push origin main  # safe to push!\n\n# WRONG: git reset (rewrites history, breaks teammates)\ngit reset --hard def5678\ngit push --force origin main  # ❌ NEVER on shared branch!\n# Teammates' histories now diverged — chaos!\n\nRule: Shared branches → revert | Local branches → reset is ok" },
+    ]
+  },
+  {
+    id: 'aws',
+    name: 'AWS',
+    emoji: '☁️',
+    color: '#f59e0b',
+    questions: [
+      { q: "What is the difference between IAM user and IAM role?", a: "IAM User: Long-term identity for humans with permanent credentials\nIAM Role: Temporary identity assumed by services (EC2, Lambda, cross-account)\n\n🔧 Real-time Example:\n# WRONG: Give EC2 access key to access S3\nexport AWS_ACCESS_KEY_ID=AKIA...   # ❌ long-term creds on server\nexport AWS_SECRET_ACCESS_KEY=xxx   # ❌ if server compromised → keys stolen\n\n# CORRECT: Attach IAM Role to EC2\n1. Create IAM Role 'EC2-S3-Access'\n2. Attach policy: s3:GetObject, s3:PutObject on my-bucket\n3. Attach role to EC2 instance\n4. EC2 automatically gets temp credentials (rotated every 1 hour)\n\n# On EC2 — no credentials needed!\naws s3 ls s3://my-bucket  # Just works!\npython s3 = boto3.client('s3')  # Auto-uses instance role\n\nRole credentials expire → auto-rotated → even if stolen, useless in 1 hour!" },
+      { q: "What is a VPC and its core components?", a: "Virtual Private Cloud — your isolated network within AWS.\n\n🔧 Real-time Example: Production VPC design:\nVPC: 10.0.0.0/16 (65,536 IPs)\n\nPublic Subnets (with IGW route):\n  10.0.1.0/24 AZ-a — ALB, NAT Gateway, Bastion\n  10.0.2.0/24 AZ-b — ALB, NAT Gateway\n\nPrivate App Subnets (route via NAT):\n  10.0.3.0/24 AZ-a — EC2/EKS nodes\n  10.0.4.0/24 AZ-b — EC2/EKS nodes\n\nPrivate DB Subnets (no internet):\n  10.0.5.0/24 AZ-a — RDS primary\n  10.0.6.0/24 AZ-b — RDS standby\n\nComponents:\n• Internet Gateway → bidirectional internet for public resources\n• NAT Gateway → outbound-only internet for private resources\n• Route Tables → define traffic paths\n• Security Groups → instance-level stateful firewall\n• NACLs → subnet-level stateless firewall" },
+      { q: "What is the difference between Security Groups and NACLs?", a: "Security Group: Instance-level, stateful (return traffic auto-allowed), Allow rules only\nNACL: Subnet-level, stateless (return traffic needs explicit rule), Allow + Deny rules\n\n🔧 Real-time Example:\nScenario: Block a malicious IP 192.168.1.100 attacking your servers.\n\n# NACL (subnet-level — blocks ALL instances in subnet)\nAdd DENY rule for 192.168.1.100 BEFORE allow rules\nRule 90: DENY 192.168.1.100/32 all traffic  ← lower number = higher priority\nRule 100: ALLOW 0.0.0.0/0 port 443\nOne rule blocks attacker from entire subnet instantly.\n\n# Security Group (instance-level — fine-grained)\n# Used for: allow app servers to talk to DB\nDB Security Group inbound:\n  Allow port 5432 FROM app-security-group  ← only app servers\n  Deny everything else (implicit)\n\nUse BOTH: NACL for broad protection, SG for granular control." },
+      { q: "What is the difference between ALB and NLB?", a: "ALB: Layer 7 (HTTP/HTTPS), path/host routing, microservices\nNLB: Layer 4 (TCP/UDP), ultra-low latency, static IP\n\n🔧 Real-time Example:\n# ALB — e-commerce microservices\napi.company.com/users    → user-service (port 8081)\napi.company.com/orders   → order-service (port 8082)\napi.company.com/payments → payment-service (port 8083)\napi.company.com/static   → S3 bucket\n\nOne ALB handles all routing based on URL path.\nPath-based routing = cost efficient (1 ALB vs 4 LBs)\n\n# NLB — real-time gaming server\n# Needs: sub-millisecond latency, static IP for client whitelisting\n# NLB passes TCP packets without inspection\n# No header modification, preserves source IP\n# 10x lower latency than ALB for TCP workloads" },
+      { q: "What is NAT Gateway and where does it reside?", a: "Allows private subnet instances to access internet (outbound only). Resides in PUBLIC subnet.\n\n🔧 Real-time Example:\nPrivate EC2 (10.0.3.10) needs to:\n→ Download Java updates (yum install java)\n→ Pull Docker images from DockerHub\n→ Call external payment API\n\nTraffic flow:\nPrivate EC2 → Route table: 0.0.0.0/0 → nat-gateway-id\nNAT Gateway (in public subnet, has Elastic IP)\n→ Route table: 0.0.0.0/0 → igw-id\nInternet Gateway → Internet\n\n# Internet can NOT initiate connection back to private EC2\n# One-way outbound only = security!\n# EC2 source IP to internet = NAT Gateway's Elastic IP\n\nHA setup: NAT Gateway per AZ\n# If single NAT GW fails → entire private subnet loses internet\n# Cost vs HA tradeoff: $0.045/hr per NAT GW" },
+      { q: "What is Auto Scaling and how does it work with ALB?", a: "Auto Scaling adjusts EC2 count based on demand. ALB routes traffic to all healthy instances.\n\n🔧 Real-time Example:\nASG Configuration:\n  Min: 2  Desired: 3  Max: 10\n\nScaling Policy (Target Tracking):\n  Target CPU utilization: 70%\n\nBlack Friday scenario:\n09:00  3 instances, CPU 40%\n10:00  Flash sale starts! CPU → 85%\n10:02  ASG launches 2 more instances\n        ALB detects new instances via health check\n        ALB automatically starts routing to new instances\n10:05  6 instances running, CPU 55%\n12:00  Sale ends, CPU drops to 20%\n12:10  ASG scales in (terminates extra instances)\n        ALB drains connections (60s) before terminating\n12:15  Back to 3 instances\n\nAll automatic! Zero manual intervention. Pay only for instances running." },
+      { q: "What is S3 and what are its storage classes?", a: "Object storage service — unlimited capacity, 11 nines durability.\n\n🔧 Real-time Example:\nS3 lifecycle policy for application logs:\n\nDay 0-30:   S3 Standard        $0.023/GB  active debugging\nDay 30-90:  Standard-IA        $0.0125/GB occasional access\nDay 90-365: Glacier Instant    $0.004/GB  compliance queries\nDay 365+:   Deep Archive       $0.00099/GB legal retention\n\napiVersion in S3 lifecycle rule:\n{\n  Rules: [{\n    Transitions: [\n      {Days: 30,  StorageClass: STANDARD_IA},\n      {Days: 90,  StorageClass: GLACIER_IR},\n      {Days: 365, StorageClass: DEEP_ARCHIVE}\n    ],\n    Expiration: {Days: 2555}  # 7 years total\n  }]\n}\n\nResult: 10TB of logs\nStandard cost:      $230/month\nWith lifecycle:      $15/month (after aging)\nSaving:              $215/month = $2,580/year!" },
+      { q: "What is the difference between EC2, ECS, and EKS?", a: "EC2: Virtual machines (full control, most work)\nECS: AWS-managed container orchestration (simpler)\nEKS: Managed Kubernetes (portable, powerful)\n\n🔧 Real-time Example:\nChoosing compute for different scenarios:\n\nEC2: Legacy Java monolith that can't be containerized\n  → Install Java + app directly on VM\n  → You manage OS patches, scaling, HA\n  → Most control, most work\n\nECS: Simple containerized app, small team\n  → Team not familiar with Kubernetes\n  → Less complexity than EKS\n  → Tightly integrated with AWS services\n  → Good for: startups, simple microservices\n\nEKS: Complex microservices platform, 50+ services\n  → Need: HPA, custom operators, service mesh\n  → Multi-cloud strategy (same K8s YAML on AWS/GCP)\n  → Large team with K8s expertise\n  → Industry standard — your team can hire K8s engineers" },
+      { q: "How does cross-account access work in AWS?", a: "Account A assumes a role defined in Account B to access its resources.\n\n🔧 Real-time Example: CI/CD deploying to prod account\n\nIn PROD account B:\n1. Create IAM Role 'DeployRole'\n2. Trust Policy: allow dev account A to assume\n   {Principal: {AWS: 'arn:aws:iam::DEV_ACCOUNT:root'}}\n3. Permission Policy: EKS deploy, ECR pull\n\nIn DEV account A (Jenkins):\n4. Allow Jenkins role to sts:AssumeRole\n\nJenkins pipeline:\nCREDS=$(aws sts assume-role \\\n  --role-arn arn:aws:iam::PROD:role/DeployRole \\\n  --role-session-name jenkins-deploy)\n\nexport AWS_ACCESS_KEY_ID=$(echo $CREDS | jq .Credentials.AccessKeyId)\nexport AWS_SECRET_ACCESS_KEY=$(echo $CREDS | jq .Credentials.SecretAccessKey)\nexport AWS_SESSION_TOKEN=$(echo $CREDS | jq .Credentials.SessionToken)\n\nkubectl apply -f k8s/ -n production  # deploys to PROD\n# Credentials expire in 1 hour automatically!" },
+      { q: "What is CloudWatch and how do you use it for monitoring?", a: "AWS native monitoring service for metrics, logs, alarms, and dashboards.\n\n🔧 Real-time Example:\n# EC2 CPU alarm\naws cloudwatch put-metric-alarm \\\n  --alarm-name 'High-CPU-Alert' \\\n  --metric-name CPUUtilization \\\n  --namespace AWS/EC2 \\\n  --dimensions Name=InstanceId,Value=i-1234 \\\n  --period 300 \\\n  --evaluation-periods 2 \\\n  --threshold 80 \\\n  --comparison-operator GreaterThanThreshold \\\n  --alarm-actions arn:aws:sns:us-east-1:123:AlertTopic\n\n# Application logs to CloudWatch\n# In app code:\nlogger.error('Payment failed: {}', error)\n# CloudWatch Logs Agent ships to /aws/myapp/logs\n\n# CloudWatch Logs Insights query:\nfields @timestamp, @message\n| filter @message like /ERROR/\n| sort @timestamp desc\n| limit 20\n\n# Results: 47 payment errors in last hour, all from IP 10.0.3.45" },
+    ]
+  },
+  {
+    id: 'linux',
+    name: 'Linux',
+    emoji: '🐧',
+    color: '#84cc16',
+    questions: [
+      { q: "How do you check disk space and troubleshoot disk issues?", a: "Use df for filesystem usage, du for directory sizes.\n\n🔧 Real-time Example: Jenkins server disk 99% full!\ndf -h\n# /dev/xvda1  50G  49.5G  0.5G  99%  /  ← critical!\n\n# Find what's eating space\ndu -sh /* 2>/dev/null | sort -rh | head -10\n# 35G /var\n# 30G /var/lib/docker\n\n# Docker taking 30GB!\ndocker system df\n# Images: 18G  Containers: 8G  Volumes: 4G\n\ndocker system prune -af --volumes\n# Freed 25GB!\n\ndf -h\n# 75% used → breathing room!\n\n# Permanent fix:\n# Configure Docker log rotation:\nvi /etc/docker/daemon.json\n# {\"log-driver\":\"json-file\",\"log-opts\":{\"max-size\":\"10m\",\"max-file\":\"3\"}}\n\n# Cron job for weekly cleanup:\n0 2 * * 0 docker system prune -af > /var/log/docker-cleanup.log 2>&1" },
+      { q: "How do you troubleshoot a slow server?", a: "Systematic performance debugging:\n\n🔧 Real-time Example: App responding slowly.\n\n# Step 1: Load average\nuptime\n# load average: 15.2, 12.1, 9.3 ← high on 4-core server!\n\n# Step 2: CPU\ntop\n# PID  USER  %CPU  COMMAND\n# 5432 java  380%  java -jar app.jar  ← multiple cores!\n\n# Step 3: Memory\nfree -h\n# Mem: 16G used: 15.8G available: 0.2G  ← almost OOM!\n# si/so in vmstat? (swap activity)\nvmstat 1 | tail -5\n# si: 245 so: 312 ← heavy swap activity!\n\n# Step 4: Disk I/O\niostat -x 1\n# xvda: %util 95%  ← disk bottleneck!\n\niotop\n# PID  DISK WRITE  COMMAND\n# 5432  200MB/s     java  ← Java writing huge logs!\n\n# Fix: reduce log level from DEBUG to WARN in production" },
+      { q: "How do you manage file permissions in Linux?", a: "chmod (permissions) and chown (ownership).\n\n🔧 Real-time Example:\n# Check permissions\nls -la /app\n# -rw-r--r-- 1 root root  config.yml  ← only root can read!\n# drwxr-xr-x 2 root root  logs/\n\n# Fix: Give app user access\nchown -R appuser:appgroup /app\nchmod 640 /app/config.yml     # owner rw, group r, others none\nchmod 750 /app/              # owner rwx, group rx, others none\n\n# Numeric permissions:\n# 7 = rwx  6 = rw-  5 = r-x  4 = r--  0 = ---\n# 755 = rwxr-xr-x (scripts/dirs)\n# 644 = rw-r--r-- (regular files)\n# 600 = rw------- (private keys!)\n# 777 = rwxrwxrwx (NEVER in production!)\n\n# Private key permissions (SSH won't work otherwise):\nchmod 600 ~/.ssh/id_rsa\nchmod 644 ~/.ssh/id_rsa.pub\nchmod 700 ~/.ssh/" },
+      { q: "How do you troubleshoot SSH connection issues?", a: "Systematic diagnosis from client to server:\n\n🔧 Real-time Example: Cannot SSH after security hardening.\n\n# Step 1: Network connectivity\nping server-ip     # works\nnc -zv server-ip 22  # connection refused!\n\n# Step 2: Verbose SSH\nssh -vvv user@server\n# debug1: connect to address port 22: Connection refused\n\n# Step 3: Check from AWS Console\n# EC2 → Actions → Get system log\n# Found: sshd service failed to start!\n\n# Step 4: Via SSM Session Manager (no SSH needed)\naws ssm start-session --target i-1234567890\n# Connected without SSH!\n\nsystemctl status sshd\n# Active: failed\njournalctl -u sshd\n# 'sshd: /etc/ssh/sshd_config line 45: Bad configuration option'\n\nvi /etc/ssh/sshd_config\n# Found: typo in AllowUsers line\nsystemctl restart sshd\n# SSH working again ✓\n\n# Prevention: Always use SSM Session Manager\n# No open port 22 needed = more secure!" },
+      { q: "How do you check and manage processes in Linux?", a: "ps, top, htop, kill — process inspection and management.\n\n🔧 Real-time Example: Port 8080 already in use when starting app.\n\n# Find what's using port 8080\nss -tlnp | grep 8080\n# tcp LISTEN  *:8080  users:((\"java\",pid=5432))\n\n# Or by process name\nps aux | grep java\n# appuser 5432  15.0 25.0  java -jar old-app.jar\n\n# Check process details\nps aux --pid 5432\nls -la /proc/5432/exe  # what binary is it?\n\n# Graceful stop first\nkill -15 5432   # SIGTERM — app can cleanup\nsleep 5\n\n# Check if stopped\nps aux | grep 5432\n\n# Force kill if still running\nkill -9 5432   # SIGKILL — immediate\n\n# Kill by port\nfuser -k 8080/tcp\n\n# Find zombie processes\nps aux | awk '$8==\"Z\" {print $2, $11}'\n# 6789 [python] <defunct>\n# Kill parent to clean up zombies" },
+      { q: "What is a shell script and how do you write one?", a: "Automated sequence of shell commands saved as a file.\n\n🔧 Real-time Example: Deployment script.\n#!/bin/bash\nset -euo pipefail  # exit on error, undefined var, pipe failure\n\nAPP_NAME='myapp'\nVERSION=${1:-latest}  # first arg or 'latest' default\nNAMESPACE='production'\n\nif [ -z '$VERSION' ]; then\n  echo 'Usage: ./deploy.sh <version>'\n  exit 1\nfi\n\necho '=== Deploying $APP_NAME:$VERSION ==='\n\n# Build\ndocker build -t $APP_NAME:$VERSION .\n\n# Push\ndocker push myrepo/$APP_NAME:$VERSION\n\n# Deploy\nkubectl set image deployment/$APP_NAME \\\n  app=myrepo/$APP_NAME:$VERSION -n $NAMESPACE\n\n# Wait for rollout\nkubectl rollout status deployment/$APP_NAME \\\n  -n $NAMESPACE --timeout=300s\n\necho '=== Deployment successful! ==='\n\n# Usage: ./deploy.sh v2.1.0\n\nset -e: stops on ANY error\nset -u: stops on undefined variable\nset -o pipefail: catches errors in pipes like 'cmd1 | cmd2'" },
+      { q: "How do you schedule tasks with crontab?", a: "crontab defines scheduled commands using time-based triggers.\n\n🔧 Real-time Example:\ncrontab -e  # edit current user's crontab\n\n# Format: minute hour day month weekday command\n# *       *    *   *     *        command\n\n# Common schedules:\n0 2 * * *   /scripts/backup.sh         # daily at 2AM\n0 */4 * * * /scripts/cleanup.sh        # every 4 hours\n30 8 * * 1  /scripts/weekly-report.sh  # Monday 8:30AM\n0 0 1 * *   /scripts/monthly-bill.sh   # 1st of month midnight\n\n# Always redirect output for debugging:\n0 2 * * * /scripts/backup.sh >> /var/log/backup.log 2>&1\n\n# Debug failing cron:\ngrep CRON /var/log/syslog | tail -20\n\n# Common cron issue: PATH is minimal!\n# Wrong:  aws s3 cp file s3://bucket/\n# Right:  /usr/local/bin/aws s3 cp file s3://bucket/\n# Or add: PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin at top" },
+    ]
+  },
+  {
+    id: 'sonarqube',
+    name: 'Nexus & SonarQube',
+    emoji: '🛠️',
+    color: '#a855f7',
+    questions: [
+      { q: "What is SonarQube and what does it analyze?", a: "Platform for continuous code quality inspection via static analysis.\n\nDetects:\n• Bugs — code likely to cause errors\n• Vulnerabilities — security issues\n• Code Smells — maintainability issues\n• Security Hotspots — need security review\n• Duplications — copy-pasted code\n• Coverage — how much code is tested\n\n🔧 Real-time Example:\nDeveloper writes:\nquery = 'SELECT * FROM users WHERE id = ' + userId;\n// SQL Injection vulnerability!\n\nSonarQube detects:\n🔴 VULNERABILITY: SQL Injection (Critical)\nFile: UserRepository.java, Line 45\nFix: Use PreparedStatement\n  query = 'SELECT * FROM users WHERE id = ?';\n  prepStmt.setInt(1, userId);\n\nQuality Gate: FAILED\nJenkins Pipeline: ABORTED\nCode never reaches production ✓\nCost of finding in prod: $0. Cost of finding in prod: $10,000+" },
+      { q: "What is a Quality Gate and how do you configure it?", a: "Pass/fail threshold that code must meet before pipeline continues.\n\n🔧 Real-time Example:\n# Create custom Quality Gate in SonarQube UI:\nAdministration → Quality Gates → Create\nName: 'Company Production Standard'\n\nConditions:\n  Coverage on New Code ≥ 75%       (if < 75% → FAIL)\n  Duplicated Lines on New Code < 5% (if > 5% → FAIL)\n  Maintainability Rating = A        (if B,C,D,E → FAIL)\n  Reliability Rating = A\n  Security Rating = A\n  No new Blocker issues\n  No new Critical issues\n\nAssign to project: myapp → Use this gate\n\n# In Jenkins:\nstage('Quality Gate') {\n  steps {\n    timeout(time: 5, unit: 'MINUTES') {\n      waitForQualityGate abortPipeline: true\n    }\n  }\n}\n\nResult: Developer adds feature without tests\nCoverage drops to 60% → Gate FAILS → Pipeline stops\nDeveloper must write tests before merge ✓" },
+      { q: "What is Nexus and what types of repositories does it support?", a: "Binary artifact repository manager. Stores and distributes build artifacts.\n\nRepository Types:\n• Hosted: Your own artifacts (JAR, WAR, Docker images)\n• Proxy: Caches remote repos (Maven Central, npm)\n• Group: Combines proxy + hosted into one URL\n\n🔧 Real-time Example:\n# Configure in pom.xml — single Group URL:\n<repositories>\n  <repository>\n    <id>nexus</id>\n    <url>http://nexus:8081/repository/maven-group/</url>\n  </repository>\n</repositories>\n\n# Developer runs: mvn package\n# pom.xml needs spring-boot-starter-web:3.1.0\n\n# Nexus Group resolves:\n1. Check hosted repo → not found\n2. Check proxy repo (caches Maven Central) → found!\n3. Returns artifact to developer\n4. Caches for next request\n\nBenefits:\n✓ Faster builds (local cache, no internet dependency)\n✓ Reproducible builds (artifact never disappears)\n✓ Security scanning before artifacts used\n✓ License compliance" },
+      { q: "What is Trivy and how do you use it in CI/CD?", a: "Open-source vulnerability scanner for containers, filesystems, and Git repos.\n\n🔧 Real-time Example:\n# In Jenkins pipeline after Docker build:\nstage('Security Scan - Trivy') {\n  steps {\n    sh '''\n      trivy image \\\n        --exit-code 1 \\\n        --severity CRITICAL,HIGH \\\n        --format table \\\n        --output trivy-report.txt \\\n        myapp:${BUILD_NUMBER}\n    '''\n  }\n  post {\n    always {\n      archiveArtifacts artifacts: 'trivy-report.txt'\n    }\n  }\n}\n\n# Trivy output:\nmyapp:2.1.0 (ubuntu 22.04)\n==============================\nTotal: 2 (CRITICAL: 1, HIGH: 1)\n\n┌─────────┬──────────┬──────────┬─────────────┐\n│ Library │   CVE    │ Severity │ Fix Version │\n├─────────┼──────────┼──────────┼─────────────┤\n│ openssl │CVE-2023  │ CRITICAL │ 3.0.8-1     │\n│ libssl  │CVE-2023  │ HIGH     │ 3.0.8-1     │\n└─────────┴──────────┴──────────┴─────────────┘\n\n# --exit-code 1 → pipeline FAILS on CRITICAL/HIGH\n# Fix: Update base image → apt-get upgrade openssl" },
+      { q: "How do you manage secrets securely in CI/CD?", a: "Never hardcode — use dedicated secret management tools.\n\n🔧 Real-time Example: Complete strategy\n\nJenkins Pipeline:\nwithCredentials([\n  usernamePassword(\n    credentialsId: 'nexus-deploy-creds',\n    usernameVariable: 'NEXUS_USER',\n    passwordVariable: 'NEXUS_PASS'\n  )\n]) {\n  sh 'mvn deploy -Dnexus.user=$NEXUS_USER -Dnexus.pass=$NEXUS_PASS'\n}\n# Password never visible in logs!\n\nKubernetes:\n# AWS Secrets Manager → K8s Secret via External Secrets Operator\napiVersion: external-secrets.io/v1beta1\nkind: ExternalSecret\nspec:\n  target:\n    name: db-secret\n  data:\n    - secretKey: password\n      remoteRef:\n        key: prod/myapp/db\n        property: password\n\nApplication:\n# Read from mounted secret file (not env var)\nDB_PASS=$(cat /var/secrets/db/password)\n\nRules:\n❌ Never: ENV DB_PASS=secret123 in Dockerfile\n❌ Never: db_password = \"secret\" in git\n✅ Always: Inject secrets at runtime\n✅ Always: Rotate secrets regularly\n✅ Always: Audit secret access" },
+    ]
+  },
+  {
+    id: 'azure',
+    name: 'Azure DevOps',
+    emoji: '🔵',
+    color: '#0078d4',
+    questions: [
+      { q: "Explain Azure CI/CD pipeline.", a: "Azure Pipelines defines CI/CD workflows in azure-pipelines.yml stored in the repo.\n\n🔧 Real-time Example:\ntrigger:\n  branches:\n    include: [main, develop]\n\nstages:\n  - stage: Build\n    jobs:\n      - job: BuildAndTest\n        pool:\n          vmImage: 'ubuntu-latest'\n        steps:\n          - task: Maven@3\n            inputs:\n              goals: 'clean package'\n              publishJUnitResults: true\n          - task: Docker@2\n            inputs:\n              command: 'buildAndPush'\n              containerRegistry: 'ACR-ServiceConnection'\n              repository: 'myapp'\n              tags: '$(Build.BuildId)'\n\n  - stage: DeployProd\n    dependsOn: Build\n    jobs:\n      - deployment: Production\n        environment: 'production'  # has approval gate\n        strategy:\n          runOnce:\n            deploy:\n              steps:\n                - task: KubernetesManifest@0\n                  inputs:\n                    action: 'deploy'\n                    namespace: 'production'\n                    containers: 'myacr.azurecr.io/myapp:$(Build.BuildId)'" },
+      { q: "What is the difference between Microsoft-hosted and self-hosted agents?", a: "Microsoft-hosted: Zero setup, fresh VM each run, full internet, limited private access\nSelf-hosted: Manual setup, faster (pre-warmed), private network access\n\n🔧 Real-time Example:\n# Microsoft-hosted — good for most builds\npool:\n  vmImage: 'ubuntu-latest'  # fresh Ubuntu, tools pre-installed\n  # Includes: Docker, Java, Node, Python, .NET, kubectl\n  # Free: 2000 minutes/month\n\n# Self-hosted — needed for internal resources\npool:\n  name: 'Internal-EC2-Agents'\n  demands:\n    - docker\n    - maven\n# Your EC2 agents can:\n# → Access private Nexus: http://nexus.internal:8081\n# → Access on-prem databases\n# → Use custom licensed tools\n# → Faster (tools already installed, no download time)\n\n# Setup self-hosted agent:\n./config.sh \\\n  --url https://dev.azure.com/myorg \\\n  --auth pat \\\n  --token YOUR_PAT \\\n  --pool 'Internal-EC2-Agents'\nsudo ./svc.sh install && sudo ./svc.sh start" },
+      { q: "How does a pipeline authenticate to an AKS cluster?", a: "Via Azure Service Connection linked to the AKS cluster.\n\n🔧 Real-time Example:\nSetup in Azure DevOps:\n  Project Settings → Service Connections\n  → New Service Connection → Kubernetes\n  → Authentication: Azure Subscription\n  → Select your AKS cluster\n  → Name: 'AKS-Production-SC'\n\nIn pipeline:\nsteps:\n  - task: KubernetesManifest@0\n    inputs:\n      action: 'deploy'\n      kubernetesServiceConnection: 'AKS-Production-SC'\n      namespace: 'production'\n      manifests: 'k8s/deployment.yaml'\n      containers: '$(containerRegistry)/myapp:$(Build.BuildId)'\n\nSecurity best practice:\n  Service Connection uses Service Principal\n  SP has role: 'AKS Cluster User' only\n  SP can deploy to 'production' namespace only\n  Not cluster admin → least privilege ✓\n\nAlternative: Workload Identity Federation\n  No secrets! Azure AD identity used directly\n  Most secure approach for new projects" },
+      { q: "How do you pass a secret file to Azure DevOps pipeline?", a: "Use Secure Files in Library or Azure Key Vault.\n\n🔧 Real-time Example:\n# Method 1: Secure Files\n# Upload: Pipelines → Library → Secure files → Upload kubeconfig\n\nsteps:\n  - task: DownloadSecureFile@1\n    name: kubeconfig\n    inputs:\n      secureFile: 'production-kubeconfig'\n\n  - script: |\n      mkdir -p ~/.kube\n      cp $(kubeconfig.secureFilePath) ~/.kube/config\n      chmod 600 ~/.kube/config\n      kubectl get pods -n production\n\n# Method 2: Azure Key Vault (preferred)\nsteps:\n  - task: AzureKeyVault@2\n    inputs:\n      azureSubscription: 'Azure-SC'\n      KeyVaultName: 'company-kv'\n      SecretsFilter: 'db-password,ssl-cert,api-key'\n      RunAsPreJob: true\n\n  - script: echo 'DB_PASS=$(db-password)'\n    # Secret auto-masked in logs: DB_PASS=***\n\n# Key Vault advantages:\n# → Centralized secret management\n# → Auto-rotation support\n# → Full audit log of who accessed what\n# → No secrets in pipeline YAML" },
+      { q: "How do you handle rollback in Azure pipeline?", a: "Use deployment strategies with on-failure rollback hooks.\n\n🔧 Real-time Example:\nstages:\n  - stage: Deploy\n    jobs:\n      - deployment: DeployProd\n        environment: 'production'\n        strategy:\n          runOnce:\n            deploy:\n              steps:\n                - task: KubernetesManifest@0\n                  inputs:\n                    action: 'deploy'\n                    manifests: 'k8s/deployment.yaml'\n                    containers: '$(tag)'\n\n            on:\n              failure:\n                steps:\n                  - script: |\n                      echo 'Deployment FAILED! Rolling back...'\n                      kubectl rollout undo deployment/myapp -n production\n                      kubectl rollout status deployment/myapp -n production\n                      echo 'Rollback complete'\n                  - task: AzureCLI@2\n                    inputs:\n                      inlineScript: |\n                        curl -X POST $(TEAMS_WEBHOOK) \\\n                          -d '{\"text\":\"⚠️ Production deploy failed - rolled back!\"}'\n\n# Canary strategy with automatic rollback:\n            canary:\n              increments: [10, 25, 50, 100]  # % of traffic\n              preDeploy:\n                steps: [run smoke tests]\n              on:\n                failure:\n                  steps: [kubectl rollout undo]  # auto-rollback!" },
+    ]
+  },
+  {
+    id: 'deployment',
+    name: 'Deployment & Production',
+    emoji: '🚢',
+    color: '#06b6d4',
+    questions: [
+      { q: "Explain your end-to-end deployment process.", a: "Complete deployment flow from commit to production:\n\n🔧 Real-time Example:\nCode Push → Git → Webhook → Jenkins triggers\n         ↓\n    Maven Build + Unit Tests\n         ↓\n    SonarQube Analysis\n         ↓\n    Quality Gate (≥75% coverage, 0 critical bugs)\n         ↓\n    Docker Build\n         ↓\n    Trivy Security Scan (fail on CRITICAL CVEs)\n         ↓\n    Push to ECR (tagged: v2.1.0-${BUILD_NUMBER})\n         ↓\n    Upload JAR to Nexus\n         ↓\n    Auto-deploy to Dev\n         ↓\n    Integration Tests on Dev\n         ↓\n    Auto-deploy to SIT\n         ↓\n    QA Testing\n         ↓\n    [Manual Approval] Deploy to UAT\n         ↓\n    UAT Sign-off\n         ↓\n    [Release Manager Approval]\n         ↓\n    Blue-Green deploy to Production\n         ↓\n    Smoke Tests\n         ↓\n    Monitor 30 min (error rate, latency)\n         ↓\n    Release Complete ✓" },
+      { q: "What deployment strategy do you use in production?", a: "Different strategies for different risk levels:\n\n🔧 Real-time Example:\nRegular weekly releases:\n→ Rolling Update (default Kubernetes strategy)\n→ Replace 1 pod at a time\n→ maxUnavailable: 0, maxSurge: 1\n→ Zero downtime, easy to monitor\n\nMajor releases (quarterly):\n→ Blue-Green Deployment\n→ Full duplicate environment\n→ Test green before switching\n→ Instant rollback = switch selector back\n\nNew risky features:\n→ Canary Deployment\n→ 5% → 20% → 50% → 100% traffic\n→ Monitor error rate at each step\n→ Rollback if errors spike\n\nDatabase changes:\n→ Expand-Contract pattern\n→ Add column (expand) → migrate data → remove old column (contract)\n→ Two releases, never breaking\n\nFeature flags:\n→ Deploy code with flag disabled\n→ Enable flag for % of users\n→ Full control without redeployment" },
+      { q: "How do you secure application data in production?", a: "Multi-layer security approach:\n\n🔧 Real-time Example:\nEncryption at Rest:\n  RDS: KMS key encryption (AES-256)\n  S3: SSE-KMS on all buckets\n  EBS: Encrypted volumes\n  K8s Secrets: Envelope encryption with KMS\n\nEncryption in Transit:\n  All services: TLS 1.3 only (disable TLS 1.0, 1.1)\n  Internal K8s: mTLS via Istio service mesh\n  DB connections: require_secure_transport=ON\n  HTTP → HTTPS redirect everywhere\n\nAccess Control:\n  DB user: SELECT, INSERT, UPDATE only\n         NO: DROP, DELETE, TRUNCATE\n  S3: Deny all HTTP (only HTTPS)\n  Secrets Manager: auto-rotation every 90 days\n  K8s RBAC: namespace-scoped permissions\n\nNetwork:\n  DB in isolated subnet (no internet route)\n  VPC Endpoints for AWS services (no internet)\n  WAF: block SQL injection, XSS, OWASP Top 10\n  Shield: DDoS protection\n\nData Privacy:\n  PII masked in logs: 'User 1234***@email.com'\n  No sensitive data in URL params (use POST body)\n  GDPR compliance: data retention policies\n  Audit logs for all PII access" },
+      { q: "What major production issue have you faced recently?", a: "STAR Method Answer:\n\n🔧 Real-time Example:\nSITUATION:\n  Payment service experiencing 30% error rate on Friday evening\n  5,000 users affected, $50K/hour revenue impact\n\nTASK:\n  On-call engineer. Restore service, find root cause.\n\nACTION:\n  T+0min: Alert received, acknowledged\n  T+2min: kubectl logs payment-pod | grep ERROR\n          'HikariPool-1 - Connection is not available, request timed out after 30000ms'\n\n  T+4min: Check DB metrics (CloudWatch)\n          RDS: ConnectionCount = 100/100 (100% utilized!)\n\n  T+5min: Check recent deploys\n          New feature deployed 2h ago: product recommendation\n          Each API call making 50 DB queries (N+1 problem!)\n\n  Immediate fix (3 min):\n          - Increase connection pool: max-pool-size: 200\n          - Scale up read replicas: 2 → 4\n\n  T+10min: Error rate drops to 0%\n\nPERMANENT FIX (next day):\n  - Fixed N+1 with single JOIN query\n  - Added query count to integration tests\n  - Alert: connection pool > 80%\n  - Added DB dashboard to Grafana\n\nRESULT: Restored in 8 minutes. No recurrence in 6 months." },
+    ]
+  },
+  {
+    id: 'buildtools',
+    name: 'Build Tools',
+    emoji: '🧱',
+    color: '#d97706',
+    questions: [
+      { q: "What is the difference between mvn package and mvn deploy?", a: "mvn package: Compile + test + create JAR/WAR in target/ folder (local only)\nmvn deploy: Everything in package + upload to remote repository (Nexus)\n\n🔧 Real-time Example:\n# mvn package — used for testing builds\nmvn package\n# Creates: target/myapp-2.1.0.jar\n# Only on build server — nobody else can get it\n\n# mvn deploy — used for releasing artifacts\nmvn deploy\n# Creates: target/myapp-2.1.0.jar\n# AND uploads to Nexus: http://nexus:8081/repository/maven-releases/\n# Other teams/services can now download: com.company:myapp:2.1.0\n\n# In CI/CD pipeline:\n# Feature branch: mvn package (don't pollute release repo)\n# Main branch after PR merge: mvn deploy (publish for consumption)\n\n# In pom.xml — distributionManagement tells deploy WHERE to upload:\n<distributionManagement>\n  <repository>\n    <id>nexus-releases</id>\n    <url>http://nexus:8081/repository/maven-releases/</url>\n  </repository>\n</distributionManagement>" },
+      { q: "What does mvn clean install do?", a: "clean: Delete target/ (old build artifacts)\ninstall: compile + test + package + install to LOCAL Maven repo (~/.m2)\n\n🔧 Real-time Example:\n# Without clean: old .class files may interfere!\n# Scenario: renamed a class → old .class file remains → subtle bug!\n\n# mvn clean install:\n[INFO] Deleting target/          # clean\n[INFO] Compiling 47 source files # compile\n[INFO] Running 120 tests...      # test\n[INFO] Tests run: 120, Failures: 0\n[INFO] Building jar: target/myapp-2.1.0.jar\n[INFO] Installing to ~/.m2/repository/com/company/myapp/2.1.0/\n\n# Why install (not just package)?\n# Multi-module project:\n# project-common depends on nothing\n# project-service depends on project-common\n\nmvn clean install  # in project-common\n# Installs to ~/.m2\n\nmvn clean package  # in project-service\n# Finds project-common in ~/.m2 ✓\n\n# If you used 'package' in common → service can't find it!\n\n# CI/CD best practice:\nmvn clean install -DskipTests  # fast build\nmvn test                        # then test separately" },
+      { q: "Explain pom.xml structure.", a: "Project Object Model — Maven's configuration file.\n\n🔧 Real-time Example:\n<?xml version='1.0'?>\n<project>\n  <!-- Coordinates (GAV) — unique identifier -->\n  <groupId>com.company</groupId>      <!-- org -->\n  <artifactId>payment-service</artifactId>  <!-- name -->\n  <version>2.1.0</version>           <!-- version -->\n  <packaging>jar</packaging>\n\n  <!-- Inherit Spring Boot defaults -->\n  <parent>\n    <groupId>org.springframework.boot</groupId>\n    <artifactId>spring-boot-starter-parent</artifactId>\n    <version>3.1.0</version>\n  </parent>\n\n  <!-- Reusable variables -->\n  <properties>\n    <java.version>17</java.version>\n  </properties>\n\n  <!-- What your project needs -->\n  <dependencies>\n    <dependency>\n      <groupId>org.springframework.boot</groupId>\n      <artifactId>spring-boot-starter-web</artifactId>\n      <!-- version from parent -->\n    </dependency>\n    <dependency>\n      <groupId>org.postgresql</groupId>\n      <artifactId>postgresql</artifactId>\n      <scope>runtime</scope>    <!-- only at runtime -->\n    </dependency>\n    <dependency>\n      <groupId>junit</groupId>\n      <artifactId>junit</artifactId>\n      <scope>test</scope>       <!-- not in final JAR -->\n    </dependency>\n  </dependencies>\n\n  <!-- Build plugins -->\n  <build>\n    <plugins>\n      <plugin>  <!-- Creates executable JAR -->\n        <groupId>org.springframework.boot</groupId>\n        <artifactId>spring-boot-maven-plugin</artifactId>\n      </plugin>\n      <plugin>  <!-- Code coverage -->\n        <groupId>org.jacoco</groupId>\n        <artifactId>jacoco-maven-plugin</artifactId>\n      </plugin>\n    </plugins>\n  </build>\n</project>" },
+      { q: "What is Gradle and have you used it?", a: "Modern build tool — faster than Maven, uses Groovy/Kotlin DSL instead of XML.\n\n🔧 Real-time Example:\n// build.gradle (vs pom.xml)\nplugins {\n  id 'java'\n  id 'org.springframework.boot' version '3.1.0'\n  id 'jacoco'\n}\n\ngroup = 'com.company'\nversion = '2.1.0'\n\ndependencies {\n  implementation 'org.springframework.boot:spring-boot-starter-web'\n  runtimeOnly 'org.postgresql:postgresql'\n  testImplementation 'org.springframework.boot:spring-boot-starter-test'\n}\n\ntest {\n  finalizedBy jacocoTestReport\n}\n\n// Command equivalents:\n// mvn clean package  →  gradle clean build\n// mvn clean install  →  gradle clean build publishToMavenLocal\n// mvn deploy         →  gradle publish\n\n// Key advantage: Build caching\n// First run: gradle build → 3 minutes\n// Second run (nothing changed):\n// > Task :compileJava UP-TO-DATE\n// > Task :test UP-TO-DATE\n// > BUILD SUCCESSFUL in 4 seconds\n// Gradle skipped everything → 45x faster!\n\n// Used in: Android projects (required), many modern Java projects" },
+    ]
+  },
+  {
+    id: 'behavioral',
+    name: 'Behavioral',
+    emoji: '🧠',
+    color: '#ec4899',
+    questions: [
+      { q: "Tell me about yourself and your day-to-day activities.", a: "Structured introduction + daily responsibilities:\n\n🔧 Real-time Example:\n'I'm a DevOps Engineer with X years of experience at [Company],\nmanaging CI/CD and cloud infrastructure for a microservices platform\nserving 500K daily users.\n\nMy daily activities:\n\nMORNING:\n→ Check overnight pipeline health\n→ Investigate any failed builds\n→ Review production monitoring dashboards\n→ Check on-call alerts from overnight\n\nDURING THE DAY:\n→ Maintain Jenkins pipelines for 30+ microservices\n→ Kubernetes cluster operations (EKS)\n→ Terraform infrastructure changes\n→ Collaborate with dev teams on deployments\n→ Automation improvements\n\nONGOING:\n→ On-call rotation (1 week per month)\n→ Security scanning and compliance\n→ Cost optimization\n→ Documentation and runbooks\n\nTECH STACK:\nJenkins, Docker, Kubernetes (EKS), Terraform, AWS,\nPrometheus/Grafana, Ansible, SonarQube, Nexus, Git'" },
+      { q: "How do you handle stressful situations and production incidents?", a: "Structured thinking, clear communication, restore-first approach:\n\n🔧 Real-time Example:\nMy framework:\n\n1. PAUSE before acting\n   → 10 seconds of clear thinking saves 10 minutes of mistakes\n   → Rushed actions cause more problems\n\n2. COMMUNICATE immediately\n   → 'Investigating payment service crash'\n   → Team knows status, no duplicate investigation\n\n3. RESTORE FIRST, investigate later\n   → Roll back takes 2 minutes\n   → Root cause takes 30 minutes\n   → Users don't care about root cause — they want service\n\n4. STRUCTURED DEBUGGING\n   → Assess → Identify → Mitigate → Verify\n   → Follow a process, don't randomly click things\n\n5. TIMEBOX each approach\n   → Stuck for 10 minutes? Get help or try different approach\n   → No ego about asking for assistance\n\nReal example:\nPayment service down, Black Friday, 14:32 PM:\n14:33 → 'Investigating, will update in 5 min'\n14:35 → 'Found: DB connection pool exhausted'\n14:37 → 'Mitigation applied: scaling up connection pool'\n14:39 → 'Service recovering, error rate dropping'\n14:41 → 'Service fully restored'\n\nCalm, structured, clear comms = team stays confident." },
+      { q: "What are your roles and responsibilities as a DevOps Engineer?", a: "Comprehensive DevOps scope:\n\n🔧 Real-time Example:\nCI/CD Pipeline Management:\n→ Design and maintain Jenkins pipelines for 30+ microservices\n→ Write Jenkinsfiles + shared libraries\n→ Integrate: SonarQube, Nexus, Trivy, Docker\n→ Onboard new services to CI/CD\n\nInfrastructure as Code:\n→ Write Terraform for complete AWS infrastructure\n→ VPC, EKS, RDS, S3, IAM, ALB — all as code\n→ Multi-environment (dev/staging/prod) with same codebase\n\nContainer Orchestration:\n→ Manage EKS cluster (upgrades, security, scaling)\n→ Write Kubernetes manifests + Helm charts\n→ Implement HPA, PDB, resource limits\n\nCloud Operations:\n→ AWS cost optimization (saved $50K/year)\n→ Security compliance (IAM, GuardDuty, WAF)\n→ Multi-AZ architecture for HA\n\nMonitoring:\n→ Prometheus + Grafana dashboards\n→ PagerDuty on-call alerts\n→ Incident response and post-mortems\n\nCollaboration:\n→ Help developers with deployment issues\n→ Code review for infrastructure changes\n→ Knowledge sharing sessions\n→ Documentation: runbooks, architecture diagrams" },
+      { q: "What CI/CD tools have you used and why?", a: "Tool selection rationale:\n\n🔧 Real-time Example:\nCurrent stack:\n\nJenkins (primary CI):\n→ 50+ microservices, complex pipeline requirements\n→ Shared libraries prevent code duplication\n→ Rich plugin ecosystem (SonarQube, Nexus, K8s)\n→ Self-hosted → private network access to internal tools\n→ Kubernetes agents for dynamic scaling\n\nArgoCD (GitOps CD):\n→ Kubernetes-native continuous delivery\n→ Git is single source of truth\n→ Drift detection and auto-remediation\n→ Full audit trail (who changed what, when)\n\nSonarQube (code quality):\n→ Static analysis on every PR\n→ Quality Gate blocks bad code before merge\n\nPrevious experience:\nGitHub Actions → open source projects, simpler workflows\nAzure DevOps → previous company, Microsoft ecosystem\nGitLab CI → self-hosted, combined Git + CI in one tool\n\nWhen to choose each:\nGitHub Actions: GitHub-native, small-medium projects\nJenkins: Complex pipelines, self-hosted, rich plugins\nAzure DevOps: Microsoft/Azure ecosystem\nGitLab CI: Self-hosted, want Git + CI together" },
+      { q: "How do you handle a production outage during peak hours?", a: "Speed + calm + clear communication:\n\n🔧 Real-time Example: E-commerce down on Black Friday.\n\nT+0:00 Alert fires → acknowledge immediately\n        'On it. Starting investigation.'\n\nT+0:02 Quick impact assessment\n        → How many users affected? (check analytics)\n        → Revenue impact per minute?\n        → Partial or total outage?\n\nT+0:03 RESTORE FIRST — check recent changes\n        git log --oneline --since='1 hour ago'\n        # deployment 15 minutes ago!\n        kubectl rollout history deployment/shop\n        kubectl rollout undo deployment/shop  # instant rollback!\n\nT+0:05 Monitor recovery\n        watch kubectl get pods\n        # error rate: 45% → 20% → 5% → 0% ✓\n\nT+0:08 Service restored\n        → Update status page: 'Resolved'\n        → Notify management: 'Service restored in 8 minutes'\n\nT+0:10 Communicate clearly\n        'Root cause: Memory leak in v2.3.1 under high load.\n         Rolled back to v2.3.0. Investigating fix.'\n\nT+24:00 Post-mortem:\n        Root cause found, fix tested, prevention added,\n        blameless culture, action items assigned." },
+      { q: "How do you stay updated with DevOps tools and practices?", a: "Continuous learning approach:\n\n🔧 Real-time Example:\nDAILY:\n→ Follow CNCF blog, AWS blog, Kubernetes releases\n→ GitHub trending repos in DevOps space\n→ Twitter/LinkedIn: @kelseyhightower, @brendandburns, @Docker\n\nWEEKLY:\n→ DevOps Weekly newsletter\n→ The New Stack articles\n→ KubeCon/CloudNativeCon videos on YouTube\n\nPRACTICAL LEARNING:\n→ Personal AWS account for experimentation\n→ Home lab with k3s Kubernetes cluster\n→ Contribute to open source tools I use\n→ Write internal tech blogs about what I learn\n\nCERTIFICATIONS:\n→ CKA (Certified Kubernetes Administrator)\n→ AWS Solutions Architect\n→ Terraform Associate\n→ Working on: CKS (Security)\n\nRECENT LEARNINGS:\n→ ArgoCD for GitOps (implemented in current project)\n→ OpenTelemetry for unified observability\n→ Cilium for eBPF-based networking\n→ Backstage for developer portal\n\nCOMMUNITY:\n→ Local DevOps meetups\n→ Slack communities (Kubernetes, Terraform)\n→ Conference talks (KubeCon videos)" },
+    ]
+  },
+  {
+    id: 'scenario',
+    name: 'Scenario-Based',
+    emoji: '🎯',
+    color: '#ef4444',
+    questions: [
+      { q: "Your pipeline is failing. How will you approach debugging?", a: "Systematic debugging process:\n\n🔧 Real-time Example:\nStep 1: READ THE ERROR (first, not last)\n  Jenkins → Console Output → search for 'ERROR' or 'FAILED'\n  Don't start from bottom — find ROOT cause!\n\nStep 2: Identify which stage failed\n  Build? Test? SonarQube? Docker? Deploy?\n\nStep 3: Stage-specific debugging:\n  BUILD FAILS:\n    mvn clean package -e -X  # verbose output\n    Check: pom.xml changes, Java version, dependency\n\n  SONARQUBE FAILS:\n    Check SonarQube dashboard → which rule violated?\n    Token expired? Server unreachable?\n\n  DOCKER PUSH FAILS:\n    'unauthorized: authentication required'\n    → ECR token expired → refresh in Jenkins credentials\n\n  DEPLOY FAILS:\n    'ImagePullBackOff' → check ECR permissions + image name\n    'Insufficient CPU' → check cluster capacity\n\nStep 4: Check agent health\n  df -h on Jenkins agent → disk full?\n  docker --version → Docker running?\n\nStep 5: Reproduce locally\n  Run same command on your machine\n  If works locally → environment difference\n\nStep 6: Fix → commit → re-run\n\nReal example:\nPipeline fails at Docker push\nError: 'unauthorized: authentication required'\nRoot cause: ECR credentials rotated but Jenkins not updated\nFix: Update credential in Jenkins → re-run → success" },
+      { q: "Application is down in production. What is your action plan?", a: "T+0:00 ALERT FIRES\n  → Acknowledge PagerDuty (stops escalation)\n  → Join #incident-production Slack channel\n  → Post: 'On it. Investigating.'\n\nT+0:03 ASSESS\n  kubectl get pods -n production\n  Check Grafana dashboard\n  What's broken? Partial or total?\n\nT+0:05 IDENTIFY ROOT CAUSE\n🔧 Real-time Example:\n  Pods crashing:\n    kubectl logs payment-7d9f --previous\n    # 'FATAL: Unable to connect to Redis'\n\n  kubectl get pods | grep redis\n  # redis-0   0/1   OOMKilled\n\nT+0:07 MITIGATE (restore service)\n  kubectl set resources deployment/redis --limits=memory=1Gi\n  kubectl rollout restart deployment/redis\n  # OR: kubectl rollout undo deployment/myapp (if bad deploy)\n\nT+0:10 VERIFY RECOVERY\n  watch kubectl get pods\n  # All Running ✓\n  Check Grafana: error rate 0% ✓\n  Run smoke tests ✓\n\nT+0:12 COMMUNICATE\n  'Service restored at 14:12 UTC'\n  Update status page\n  Notify stakeholders\n\nT+24:00 POST-MORTEM\n  Root cause: Redis memory limit set too low\n  Fix: Increase to 1Gi + add alert at 80%\n  Action items tracked in JIRA" },
+      { q: "Disk is full in production. How do you handle it?", a: "Immediate relief + permanent fix:\n\n🔧 Real-time Example:\n# Alert: disk 95% on prod-web-01\n\n# IMMEDIATE RELIEF (get below 80% fast):\n# 1. Docker cleanup (usually biggest win)\ndocker system prune -af\n# Freed: 15GB\n\n# 2. Old log files\njournalctl --vacuum-time=7d\nfind /var/log -name '*.gz' -mtime +30 -delete\n# Freed: 5GB\n\n# 3. Package cache\napt-get clean\n# Freed: 2GB\n\n# Find remaining culprits:\ndu -sh /* 2>/dev/null | sort -rh | head -10\n# 20G /var/lib/jenkins/workspace\nfind /var/lib/jenkins/workspace -maxdepth 1 \\\n  -type d -mtime +7 -exec rm -rf {} \\;\n# Freed: 18GB!\n\n# Disk now at 45% ← breathing room\n\n# PERMANENT FIXES:\n# 1. EBS volume expansion (online, no downtime)\naws ec2 modify-volume --volume-id vol-123 --size 100\nresize2fs /dev/xvda1\n\n# 2. Log rotation\ncat > /etc/logrotate.d/myapp << EOF\n/var/log/myapp/*.log {\n  daily\n  rotate 7\n  compress\n  missingok\n}\nEOF\n\n# 3. CloudWatch alarm at 80%\n# 4. Docker image pruning cron\n0 3 * * * docker system prune -af > /dev/null 2>&1" },
+      { q: "How would you design a scalable, zero-downtime, highly reliable architecture?", a: "Multi-layer HA design:\n\n🔧 Real-time Example: Production architecture\n\nDNS: Route53\n  → Health checks on ALB endpoints\n  → Failover routing for DR\n\nCDN: CloudFront\n  → Cache static assets globally\n  → 400+ edge locations\n  → Reduces origin load 80%\n\nLoad Balancing: ALB\n  → Spans 3 AZs\n  → Path-based routing to microservices\n  → SSL termination\n\nCompute: EKS\n  → Multi-AZ node groups\n  → HPA: scale pods on CPU/memory\n  → Cluster Autoscaler: add nodes automatically\n  → PodDisruptionBudget: min 2 replicas always\n  → Rolling Update: maxUnavailable: 0\n  → Readiness probes: no traffic to unready pods\n\nDatabase: Aurora PostgreSQL\n  → 6 copies across 3 AZs\n  → Auto-failover in < 30 seconds\n  → Read replicas for read scaling\n  → Automated backups 35 days\n\nCaching: ElastiCache Redis\n  → Multi-AZ with automatic failover\n  → Reduces DB load 70%\n\nMonitoring: Prometheus + Grafana\n  → Alert before users notice\n  → On-call rotation\n  → SLA: 99.99% uptime" },
+      { q: "How do you install a tool on 100 EC2 instances?", a: "Best approach depends on whether instances exist or are new:\n\n🔧 Real-time Example: Install Docker on 100 existing EC2s\n\nOption 1: Ansible (BEST for existing servers)\n# inventory.ini\n[all]\nserver1.company.com\nserver2.company.com\n# ...100 servers\n\n# install_docker.yml\n- hosts: all\n  become: yes\n  tasks:\n    - name: Install Docker\n      apt: name=docker-ce state=present\n    - name: Start Docker\n      service: name=docker state=started enabled=yes\n    - name: Add user to docker group\n      user: name=ec2-user groups=docker append=yes\n\nansible-playbook -i inventory.ini install_docker.yml --forks 20\n# 20 servers simultaneously → 100 servers in ~3 minutes!\n\nOption 2: AWS SSM Run Command (no SSH needed!)\naws ssm send-command \\\n  --targets 'Key=tag:Environment,Values=production' \\\n  --document-name 'AWS-RunShellScript' \\\n  --parameters 'commands=[\"apt-get install -y docker-ce\",\"systemctl start docker\"]'\n# Runs on ALL tagged instances automatically!\n# Full audit in AWS Console\n\nOption 3: Golden AMI (for NEW instances)\nBake Docker into AMI → all new instances have Docker\nZero install time at launch" },
+    ]
+  }
+];
+
+// ═══════════════════════════════════════════════════════════
+// APP STATE
+// ═══════════════════════════════════════════════════════════
+let currentTopicId = null;
+let searchQuery = '';
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+function init() {
+  buildSidebar();
+  buildWelcomeGrid();
+  updateProgress();
+}
+
+function buildSidebar() {
+  const container = document.getElementById('sidebarTools');
+  TOPICS.forEach(topic => {
+    const btn = document.createElement('button');
+    btn.className = 'tool-btn';
+    btn.id = `sidebar-${topic.id}`;
+    btn.onclick = () => showTopic(topic.id);
+    btn.innerHTML = `
+      <span class="tool-emoji">${topic.emoji}</span>
+      ${topic.name}
+      <span class="tool-count">${topic.questions.length}</span>
+    `;
+    container.appendChild(btn);
+  });
+}
+
+function buildWelcomeGrid() {
+  const grid = document.getElementById('welcomeGrid');
+  TOPICS.forEach(topic => {
+    const card = document.createElement('div');
+    card.className = 'welcome-card';
+    card.onclick = () => showTopic(topic.id);
+    card.innerHTML = `
+      <div class="wc-icon">${topic.emoji}</div>
+      <div class="wc-name">${topic.name}</div>
+      <div class="wc-count">${topic.questions.length} questions</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+// SHOW TOPIC
+// ═══════════════════════════════════════════════════════════
+function showTopic(topicId) {
+  currentTopicId = topicId;
+  searchQuery = '';
+
+  // Reset search inputs
+  document.querySelectorAll('.search-box').forEach(el => el.value = '');
+
+  // Update sidebar active state
+  document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+  const activeBtn = document.getElementById(`sidebar-${topicId}`);
+  if (activeBtn) activeBtn.classList.add('active');
+  const allBtn = document.querySelector('.tool-btn[onclick="showTopic(\'all\')"]');
+  if (topicId === 'all' && allBtn) allBtn.classList.add('active');
+
+  // Switch view
+  document.getElementById('welcomeScreen').style.display = 'none';
+  document.getElementById('questionsView').style.display = 'block';
+
+  if (topicId === 'all') {
+    renderAll();
+  } else {
+    const topic = TOPICS.find(t => t.id === topicId);
+    if (topic) renderTopic(topic);
+  }
+
+  updateProgress();
+}
+
+function renderTopic(topic, filteredQuestions = null) {
+  const questions = filteredQuestions || topic.questions;
+
+  document.getElementById('topicHeader').innerHTML = `
+    <div class="topic-header">
+      <div class="topic-icon">${topic.emoji}</div>
+      <div>
+        <div class="topic-title">${topic.name}</div>
+        <div class="topic-subtitle">Interview Questions & Real-time Examples</div>
+      </div>
+      <div class="topic-badge">${questions.length} Questions</div>
+    </div>
+  `;
+
+  document.getElementById('qaCount').textContent = `${questions.length} questions`;
+  renderQAList(questions, topic);
+}
+
+function renderAll(filter = '') {
+  let allQ = [];
+  TOPICS.forEach(t => {
+    t.questions.forEach((q, i) => {
+      allQ.push({...q, topicName: t.name, topicEmoji: t.emoji, topicId: t.id, origIdx: i});
+    });
+  });
+
+  if (filter) {
+    allQ = allQ.filter(q =>
+      q.q.toLowerCase().includes(filter) || q.a.toLowerCase().includes(filter)
+    );
+  }
+
+  document.getElementById('topicHeader').innerHTML = `
+    <div class="topic-header">
+      <div class="topic-icon">🌐</div>
+      <div>
+        <div class="topic-title">${filter ? 'Search Results' : 'All Topics'}</div>
+        <div class="topic-subtitle">${filter ? `Results for "${filter}"` : 'Complete DevOps Interview Guide'}</div>
+      </div>
+      <div class="topic-badge">${allQ.length} Questions</div>
+    </div>
+  `;
+
+  document.getElementById('qaCount').textContent = `${allQ.length} questions`;
+  renderQAList(allQ, null, filter);
+}
+
+function renderQAList(questions, topic, highlight = '') {
+  const list = document.getElementById('qaList');
+  list.innerHTML = '';
+
+  if (questions.length === 0) {
+    list.innerHTML = `
+      <div class="no-results">
+        <div class="no-results-icon">🔍</div>
+        <div style="font-size:18px;font-weight:700;margin-bottom:8px;">No results found</div>
+        <div style="color:var(--text3)">Try different keywords or browse topics from the sidebar</div>
+      </div>
+    `;
+    return;
+  }
+
+  questions.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = 'qa-card';
+    card.style.animationDelay = `${Math.min(idx * 0.03, 0.5)}s`;
+
+    const topicLabel = item.topicName ? `<span style="font-size:10px;color:var(--text3);margin-left:8px;">[${item.topicEmoji} ${item.topicName}]</span>` : '';
+    const qText = highlight ? highlightText(item.q, highlight) : item.q;
+    const aText = highlight ? highlightText(item.a, highlight) : item.a;
+
+    const formattedAnswer = formatAnswer(aText);
+
+    card.innerHTML = `
+      <div class="qa-question" onclick="toggleCard(this)">
+        <span class="q-num">Q${idx + 1}</span>
+        <span class="q-text">${qText}${topicLabel}</span>
+        <span class="q-arrow">▼</span>
+      </div>
+      <div class="qa-answer">
+        <div class="answer-inner">
+          <div class="realtime-tag">🔧 Answer + Real-time Example</div>
+          <div class="answer-text">${formattedAnswer}</div>
+        </div>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+}
+
+function formatAnswer(text) {
+  // Format code blocks
+  let html = escapeHtml(text);
+
+  // Code blocks (lines starting with spaces or common code patterns)
+  const lines = html.split('\n');
+  let inCode = false;
+  let codeLines = [];
+  let result = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const isCode = line.startsWith('    ') || line.startsWith('\t') ||
+                   (line.match(/^[a-z0-9_-]+\s*[:{(>|#]/) && !line.startsWith('→')) ||
+                   line.startsWith('#') || line.startsWith('//') ||
+                   line.startsWith('kubectl') || line.startsWith('docker') ||
+                   line.startsWith('aws ') || line.startsWith('git ') ||
+                   line.startsWith('terraform') || line.startsWith('ansible') ||
+                   line.startsWith('helm ') || line.startsWith('curl ') ||
+                   line.startsWith('export ') || line.startsWith('sudo ') ||
+                   line.startsWith('apt') || line.startsWith('yum') ||
+                   line.startsWith('mvn ') || line.startsWith('gradle ') ||
+                   (line.includes('(') && line.includes(')') && line.startsWith(' '));
+
+    if (isCode && !line.startsWith('→') && line.trim() !== '') {
+      if (!inCode) {
+        inCode = true;
+        codeLines = [];
+      }
+      codeLines.push(line);
+    } else {
+      if (inCode) {
+        result.push(`<pre class="code-block">${codeLines.join('\n')}</pre>`);
+        inCode = false;
+        codeLines = [];
+      }
+      result.push(line);
+    }
+  }
+
+  if (inCode && codeLines.length > 0) {
+    result.push(`<pre class="code-block">${codeLines.join('\n')}</pre>`);
+  }
+
+  return result.join('\n');
+}
+
+function escapeHtml(text) {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function highlightText(text, query) {
+  if (!query) return text;
+  const regex = new RegExp(`(${escapeRegex(query)})`, 'gi');
+  return text.replace(regex, '<span class="search-highlight">$1</span>');
+}
+
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// ═══════════════════════════════════════════════════════════
+// TOGGLE Q&A
+// ═══════════════════════════════════════════════════════════
+function toggleCard(questionEl) {
+  const card = questionEl.parentElement;
+  card.classList.toggle('open');
+}
+
+function expandAll() {
+  document.querySelectorAll('.qa-card').forEach(c => c.classList.add('open'));
+}
+
+function collapseAll() {
+  document.querySelectorAll('.qa-card').forEach(c => c.classList.remove('open'));
+}
+
+// ═══════════════════════════════════════════════════════════
+// SEARCH
+// ═══════════════════════════════════════════════════════════
+let searchTimeout;
+function handleSearch(value) {
+  // Sync both search boxes
+  document.querySelectorAll('.search-box').forEach(el => el.value = value);
+
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(() => {
+    searchQuery = value.toLowerCase().trim();
+
+    if (!searchQuery) {
+      if (currentTopicId) showTopic(currentTopicId);
+      else {
+        document.getElementById('welcomeScreen').style.display = 'flex';
+        document.getElementById('questionsView').style.display = 'none';
+      }
+      return;
+    }
+
+    // Show questions view
+    document.getElementById('welcomeScreen').style.display = 'none';
+    document.getElementById('questionsView').style.display = 'block';
+
+    if (currentTopicId && currentTopicId !== 'all') {
+      const topic = TOPICS.find(t => t.id === currentTopicId);
+      if (topic) {
+        const filtered = topic.questions.filter(q =>
+          q.q.toLowerCase().includes(searchQuery) || q.a.toLowerCase().includes(searchQuery)
+        );
+        renderTopic(topic, filtered);
+        // Re-render with highlighting
+        const allQ = filtered.map((q, i) => ({...q, origIdx: i}));
+        renderQAList(allQ, topic, searchQuery);
+        document.getElementById('qaCount').textContent = `${filtered.length} results`;
+      }
+    } else {
+      currentTopicId = 'all';
+      renderAll(searchQuery);
+    }
+  }, 200);
+}
+
+// ═══════════════════════════════════════════════════════════
+// PROGRESS BAR (scroll-based)
+// ═══════════════════════════════════════════════════════════
+function updateProgress() {
+  const content = document.getElementById('mainContent');
+  content.addEventListener('scroll', () => {
+    const scrollPercent = content.scrollTop / (content.scrollHeight - content.clientHeight) * 100;
+    document.getElementById('progressFill').style.width = scrollPercent + '%';
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+// KEYBOARD SHORTCUT: / to focus search
+// ═══════════════════════════════════════════════════════════
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+    e.preventDefault();
+    const search = document.getElementById('searchMain') || document.getElementById('searchWelcome');
+    if (search) search.focus();
+  }
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.search-box').forEach(el => {
+      el.value = '';
+      el.blur();
+    });
+    if (currentTopicId) showTopic(currentTopicId);
+  }
+});
+
+// ═══════════════════════════════════════════════════════════
+// START
+// ═══════════════════════════════════════════════════════════
+init();
+</script>
+</body>
+</html>
